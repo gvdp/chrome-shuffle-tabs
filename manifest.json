@@ -3,7 +3,8 @@
   "name": "Shuffle Tabs",
   "version": "0.0.1",
   "action": {
-    "default_title": "Click to shuffle"
+    "default_title": "Click to shuffle",
+    "default_popup": "popup.html"
   },
   "permissions": [
     "activeTab",
@@ -11,7 +12,6 @@
     "scripting"
   ],
   "background": {
-    "service_worker": "background.js"
   },
   "description": "A plain text description"
 }
