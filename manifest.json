@@ -7,11 +7,14 @@
     "default_popup": "popup.html"
   },
   "permissions": [
+        "alarms",
     "activeTab",
     "tabs",
+    "storage",
     "scripting"
   ],
   "background": {
+    "service_worker": "polling.js"
   },
   "description": "A plain text description"
 }
