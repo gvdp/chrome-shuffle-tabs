@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('shuffle').addEventListener('click', () => {
     shuffle()
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 
   console.log('init open snooze stuff')
-  
+helloWorld()
 })
 
 async function shuffle () {
@@ -25,16 +26,25 @@ async function shuffle () {
 
 async function snooze () {
   let queryOptions = { pinned: false, currentWindow: true }
-  const tabs = (await chrome.tabs.query(queryOptions)).filter(({active}) => !active)
+  const tabs = (await chrome.tabs.query(queryOptions)).filter(
+    ({ active }) => !active
+  )
   const urls = tabs.map(({ url }, index) => ({
     url,
-    wakeUpAt: new Date().getTime() + (Math.random() * (index + 1)* (index + 1) * tabs.length * 1000)
+    wakeUpAt:
+      new Date().getTime() +
+      Math.random() * (index + 1) * (index + 1) * tabs.length * 1000
   }))
   console.log('snoozing ', tabs, urls)
-  chrome.storage.local.set({ tabs: urls }, function (cb) {
-    console.log('Value is set to ', cb)
+  chrome.storage.local.get('tabs', function (alreadySnoozed) {
+    chrome.storage.local.set(
+      { tabs: { ...urls, ...alreadySnoozed.tabs } },
+      function (cb) {
+        console.log('Value is set to ', cb)
+      }
+    )
+    chrome.tabs.remove(tabs.map(({ id }) => id))
   })
-    chrome.tabs.remove(tabs.map(({id}) => id))
 }
 
 async function merge () {
@@ -49,4 +59,29 @@ async function merge () {
 
   const otherTabIds = otherTabs.map(tab => tab.id)
   await chrome.tabs.move(otherTabIds, { index: -1, windowId: firstWindow.id })
+}
+
+
+
+function helloWorld () {
+  console.log('Hello, world!')
+
+  chrome.storage.local.get('tabs', function (result) {
+    const tabList = Object.values(result.tabs)
+    console.log('loaded tabs', result, tabList.length)
+    if (tabList.length) {
+      const tab = tabList[0]
+      console.log('checking timeout for ', tab, new Date().getTime())
+      if (tab.wakeUpAt < new Date().getTime()) {
+        console.log('opening new tab ', tab.url)
+        chrome.tabs.create({ url: tab.url, active: false })
+        chrome.storage.local.get('tabs', function (result) {
+          const newTabList = tabList.filter(({ url }) => url !== tab.url)
+          chrome.storage.local.set({ tabs: newTabList }, function (cb) {
+            console.log('tab storage updated to ', newTabList)
+          })
+        })
+      }
+    }
+  })
 }

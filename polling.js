@@ -11,19 +11,21 @@ chrome.alarms.onAlarm.addListener(alarm => {
   helloWorld()
 })
 
+
 function helloWorld () {
   console.log('Hello, world!')
 
   chrome.storage.local.get('tabs', function (result) {
-    console.log('loaded tabs', result)
-    if (result.tabs.length) {
-      const tab = result.tabs[0]
+    const tabList = Object.values(result.tabs)
+    console.log('loaded tabs', result, tabList.length)
+    if (tabList.length) {
+      const tab = tabList[0]
       console.log('checking timeout for ', tab, new Date().getTime())
       if (tab.wakeUpAt < new Date().getTime()) {
         console.log('opening new tab ', tab.url)
         chrome.tabs.create({ url: tab.url, active: false })
         chrome.storage.local.get('tabs', function (result) {
-          const newTabList = result.tabs.filter(({ url }) => url !== tab.url)
+          const newTabList = tabList.filter(({ url }) => url !== tab.url)
           chrome.storage.local.set({ tabs: newTabList }, function (cb) {
             console.log('tab storage updated to ', newTabList)
           })
