@@ -7,7 +7,7 @@
     "default_popup": "popup.html"
   },
   "permissions": [
-        "alarms",
+    "alarms",
     "activeTab",
     "tabs",
     "storage",

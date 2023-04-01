@@ -8,13 +8,11 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.alarms.onAlarm.addListener(alarm => {
   console.log(alarm.name) // refresh
-  helloWorld()
+  wakeUpATab()
 })
 
 
-function helloWorld () {
-  console.log('Hello, world!')
-
+function wakeUpATab () {
   chrome.storage.local.get('tabs', function (result) {
     const tabList = Object.values(result.tabs)
     console.log('loaded tabs', result, tabList.length)
@@ -34,3 +32,4 @@ function helloWorld () {
     }
   })
 }
+

@@ -9,9 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('snooze').addEventListener('click', () => {
     snooze()
   })
+  document.getElementById('unsnooze').addEventListener('click', () => {
+    unsnooze()
+  })
+ chrome.storage.local.get('tabs', async function (result) {
+  if(result) {
 
+    const tabList = Object.values(result?.tabs || {})
+    document.getElementById('tabcount').textContent = `Snoozed tabs: ${tabList?.length || '0'}`
+  }
+ })
   console.log('init open snooze stuff')
-helloWorld()
+wakeUpATab()
 })
 
 async function shuffle () {
@@ -47,6 +56,33 @@ async function snooze () {
   })
 }
 
+async function unsnooze () {
+  chrome.storage.local.get('tabs', async function (result) {
+    const tabList = Object.values(result.tabs)
+    console.log('loaded tabs', result, tabList.length)
+    for (const tab of tabList) {
+      
+        console.log('opening new tab ', tab.url)
+        chrome.tabs.create({ url: tab.url, active: false })
+        // await new Promise((resolve)=> {
+
+        //   chrome.storage.local.get('tabs', function (result) {
+        //     const newTabList = tabList.filter(({ url }) => url !== tab.url)
+        //     chrome.storage.local.set({ tabs: newTabList }, function (cb) {
+        //       console.log('tab storage updated to ', newTabList)
+        //       resolve()
+        //     })
+        //   })
+        // })
+    }
+
+      chrome.storage.local.set({ tabs: [] }, function (cb) {
+              console.log('tab storage updated to ', newTabList)
+            })
+  })
+
+}
+
 async function merge () {
   const windows = await chrome.windows.getAll({ populate: true })
 
@@ -63,10 +99,11 @@ async function merge () {
 
 
 
-function helloWorld () {
+function wakeUpATab () {
   console.log('Hello, world!')
 
   chrome.storage.local.get('tabs', function (result) {
+    if(!result?.tabs) return;
     const tabList = Object.values(result.tabs)
     console.log('loaded tabs', result, tabList.length)
     if (tabList.length) {
