@@ -15,10 +15,12 @@ chrome.alarms.onAlarm.addListener(alarm => {
 function wakeUpATab () {
   chrome.storage.local.get('tabs', function (result) {
     const tabList = Object.values(result.tabs)
-    console.log('loaded tabs', result, tabList.length)
+    console.log('loaded tabs', result, tabList.length, tabList.map(({wakeUpAt}) => new Date(wakeUpAt)))
     if (tabList.length) {
       const tab = tabList[0]
-      console.log('checking timeout for ', tab, new Date().getTime())
+      console.log('checking timeout for ', tab)
+      console.log('currentTime', new Date());
+      console.log('wake up time', new Date(tab.wakeUpAt));
       if (tab.wakeUpAt < new Date().getTime()) {
         console.log('opening new tab ', tab.url)
         chrome.tabs.create({ url: tab.url, active: false })
@@ -32,4 +34,3 @@ function wakeUpATab () {
     }
   })
 }
-

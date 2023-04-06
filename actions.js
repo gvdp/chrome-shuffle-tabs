@@ -12,15 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('unsnooze').addEventListener('click', () => {
     unsnooze()
   })
- chrome.storage.local.get('tabs', async function (result) {
-  if(result) {
+  chrome.storage.local.get('tabs', async function (result) {
+    if (result) {
+      const tabList = Object.values(result?.tabs || {})
+      document.getElementById(
+        'tabcount'
+      ).textContent = `Snoozed tabs: ${tabList?.length || '0'}`
+    }
+  })
+  console.log('added event listeners')
 
-    const tabList = Object.values(result?.tabs || {})
-    document.getElementById('tabcount').textContent = `Snoozed tabs: ${tabList?.length || '0'}`
-  }
- })
-  console.log('init open snooze stuff')
-wakeUpATab()
+  chrome.alarms.getAll(alarms => {
+    console.log('current alarms ', alarms, alarms.map(({scheduledTime}) => new Date(scheduledTime)))
+  })
+
+  wakeUpATab()
 })
 
 async function shuffle () {
@@ -61,26 +67,24 @@ async function unsnooze () {
     const tabList = Object.values(result.tabs)
     console.log('loaded tabs', result, tabList.length)
     for (const tab of tabList) {
-      
-        console.log('opening new tab ', tab.url)
-        chrome.tabs.create({ url: tab.url, active: false })
-        // await new Promise((resolve)=> {
+      console.log('opening new tab ', tab.url)
+      chrome.tabs.create({ url: tab.url, active: false })
+      // await new Promise((resolve)=> {
 
-        //   chrome.storage.local.get('tabs', function (result) {
-        //     const newTabList = tabList.filter(({ url }) => url !== tab.url)
-        //     chrome.storage.local.set({ tabs: newTabList }, function (cb) {
-        //       console.log('tab storage updated to ', newTabList)
-        //       resolve()
-        //     })
-        //   })
-        // })
+      //   chrome.storage.local.get('tabs', function (result) {
+      //     const newTabList = tabList.filter(({ url }) => url !== tab.url)
+      //     chrome.storage.local.set({ tabs: newTabList }, function (cb) {
+      //       console.log('tab storage updated to ', newTabList)
+      //       resolve()
+      //     })
+      //   })
+      // })
     }
 
-      chrome.storage.local.set({ tabs: [] }, function (cb) {
-              console.log('tab storage updated to ', newTabList)
-            })
+    chrome.storage.local.set({ tabs: [] }, function (cb) {
+      console.log('tab storage updated to ', newTabList)
+    })
   })
-
 }
 
 async function merge () {
@@ -97,18 +101,16 @@ async function merge () {
   await chrome.tabs.move(otherTabIds, { index: -1, windowId: firstWindow.id })
 }
 
-
-
 function wakeUpATab () {
-  console.log('Hello, world!')
-
+  console.log('waking up tabs');
   chrome.storage.local.get('tabs', function (result) {
-    if(!result?.tabs) return;
     const tabList = Object.values(result.tabs)
-    console.log('loaded tabs', result, tabList.length)
+    console.log('loaded tabs', result, tabList.length, tabList.map(({wakeUpAt}) => new Date(wakeUpAt)))
     if (tabList.length) {
       const tab = tabList[0]
-      console.log('checking timeout for ', tab, new Date().getTime())
+      console.log('checking timeout for ', tab)
+      console.log('currentTime', new Date());
+      console.log('wake up time', new Date(tab.wakeUpAt));
       if (tab.wakeUpAt < new Date().getTime()) {
         console.log('opening new tab ', tab.url)
         chrome.tabs.create({ url: tab.url, active: false })
