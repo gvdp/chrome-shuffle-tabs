@@ -105,6 +105,8 @@ function wakeUpATab () {
   console.log('waking up tabs');
   chrome.storage.local.get('tabs', function (result) {
     const tabList = Object.values(result.tabs)
+        tabList.sort((a,b) => a.wakeUpAt > b.wakeUpAt ? 1 : -1)
+
     console.log('loaded tabs', result, tabList.length, tabList.map(({wakeUpAt}) => new Date(wakeUpAt)))
     if (tabList.length) {
       const tab = tabList[0]
