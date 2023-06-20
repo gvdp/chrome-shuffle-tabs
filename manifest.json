@@ -14,7 +14,16 @@
     "scripting"
   ],
   "background": {
-    "service_worker": "polling.js"
+    "service_worker": "background.js"
   },
-  "description": "A plain text description"
+  "commands": {
+    "myKeyCombination": {
+      "suggested_key": {
+        "default": "Alt+S",
+        "mac": "Command+MacCtrl+A"
+      },
+      "description": "My Key Combination"
+    }
+  },
+  "description": "Extension to shuffle and snooze tabs"
 }

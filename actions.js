@@ -1,4 +1,6 @@
 
+console.log('adding event listeners in acionts.js');
+
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('shuffle').addEventListener('click', () => {
     shuffle()
@@ -26,8 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('current alarms ', alarms, alarms.map(({scheduledTime}) => new Date(scheduledTime)))
   })
 
-  wakeUpATab()
+  // wakeUpATab()
 })
+
+
 
 async function shuffle () {
   console.log('shufflin')
