@@ -98,12 +98,13 @@ async function snoozeATAb () {
 
   // todo: same as in snoozeALl method in actions.js , can be extracted
   chrome.storage.local.get('tabs', function (alreadySnoozed) {
+    console.log('adding tab to ', alreadySnoozed)
     chrome.storage.local.set(
-      { tabs: { ...urls, ...alreadySnoozed.tabs } },
-      function (cb) {
-        console.log('Value is set to ', cb)
-      }
-    )
+      { tabs: [ ...urls, ...alreadySnoozed.tabs ] }).then((cb) => {
+
+          console.log('Value is set to ', cb)
+      }).catch((e) => console.error(e))
+    
     chrome.tabs.remove(tabs.map(({ id }) => id))
   })
 }

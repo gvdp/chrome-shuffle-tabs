@@ -58,7 +58,7 @@ async function snooze () {
   console.log('snoozing ', tabs, urls)
   chrome.storage.local.get('tabs', function (alreadySnoozed) {
     chrome.storage.local.set(
-      { tabs: { ...urls, ...alreadySnoozed.tabs } },
+      { tabs: [ ...urls, ...alreadySnoozed.tabs ] },
       function (cb) {
         console.log('Value is set to ', cb)
       }
@@ -70,7 +70,7 @@ async function snooze () {
 async function unsnooze () {
   chrome.storage.local.get('tabs', async function (result) {
     const tabList = Object.values(result.tabs)
-    console.log('loaded tabs', result, tabList.length)
+    console.log('unsnoozing tabs', result, tabList.length)
     for (const tab of tabList) {
       console.log('opening new tab ', tab.url)
       chrome.tabs.create({ url: tab.url, active: false })
@@ -87,7 +87,7 @@ async function unsnooze () {
     }
 
     chrome.storage.local.set({ tabs: [] }, function (cb) {
-      console.log('tab storage updated to ', newTabList)
+      console.log('tab storage emptied')
     })
   })
 }
