@@ -23,6 +23,13 @@
         "mac": "Command+MacCtrl+A"
       },
       "description": "My Key Combination"
+    },
+    "snoozeCombination": {
+      "suggested_key": {
+        "default": "Alt+Z",
+        "mac": "Command+MacCtrl+Z"
+      },
+      "description": "snoozeCombination"
     }
   },
   "description": "Extension to shuffle and snooze tabs"

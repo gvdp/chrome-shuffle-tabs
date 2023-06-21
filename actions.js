@@ -45,6 +45,7 @@ async function shuffle () {
 
 async function snooze () {
   let queryOptions = { pinned: false, currentWindow: true }
+  // todo: the active can maybe also e given as queryOption
   const tabs = (await chrome.tabs.query(queryOptions)).filter(
     ({ active }) => !active
   )
