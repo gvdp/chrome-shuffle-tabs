@@ -41,7 +41,12 @@ chrome.commands.onCommand.addListener(function (command) {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   console.log("alarm triggered", alarm.name); // refresh
-  wakeUpATab();
+  chrome.storage.local.get("wakeUpEnabled", function ({wakeUpEnabled}) {
+    console.log('wakeUpEnabled', wakeUpEnabled);
+    if(wakeUpEnabled) {
+      wakeUpATab();
+    }
+  })
 });
 
 // todo: this is copy pasted, should be shared

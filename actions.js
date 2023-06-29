@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("unsnooze").addEventListener("click", () => {
     unsnooze();
   });
+
   chrome.storage.local.get("tabs", async function (result) {
     if (result) {
       const tabList = Object.values(result?.tabs || {});
@@ -20,6 +21,20 @@ document.addEventListener("DOMContentLoaded", () => {
         tabList?.length || "0"
       }`;
     }
+  });
+  chrome.storage.local.get("wakeUpEnabled", async function ({wakeUpEnabled}) {
+    console.log('wakeUpEnabled', wakeUpEnabled);
+    
+    document.getElementById("wakeUpEnabled").textContent = `Wakeup ${wakeUpEnabled ? 'Enabled': 'Disabled'}`;
+    
+    document.getElementById("wakeUpEnabled").addEventListener("click", () => {
+      chrome.storage.local.set({ wakeUpEnabled: !wakeUpEnabled }, function (cb) {
+        console.log("waking up enabled / disabled");
+        // todo: also change event listener now
+        document.getElementById("wakeUpEnabled").textContent = `Wakeup ${!wakeUpEnabled ? 'Enabled': 'Disabled'}`;
+
+      });
+    });
   });
   console.log("added event listeners");
 
