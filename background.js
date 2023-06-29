@@ -1,7 +1,7 @@
 console.log('opening background.js to add alarms')
 
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('onInstalled, adding alarm and key command event listeners')
+// chrome.runtime.onInstalled.addListener(() => {
+  // console.log('onInstalled, adding alarm and key command event listeners')
   // create alarm after extension is installed / upgraded
   chrome.alarms.create('refresh', { periodInMinutes: 3 })
 
@@ -37,7 +37,7 @@ chrome.runtime.onInstalled.addListener(() => {
       snoozeATAb()
     }
   })
-})
+// })
 
 chrome.alarms.onAlarm.addListener(alarm => {
   console.log('alarm triggered', alarm.name) // refresh
