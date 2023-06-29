@@ -6,13 +6,7 @@
     "default_title": "Click to shuffle",
     "default_popup": "popup.html"
   },
-  "permissions": [
-    "alarms",
-    "activeTab",
-    "tabs",
-    "storage",
-    "scripting"
-  ],
+  "permissions": ["alarms", "activeTab", "tabs", "storage", "scripting"],
   "background": {
     "service_worker": "background.js"
   },
