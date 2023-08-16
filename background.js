@@ -1,9 +1,12 @@
+const REFRESH_PERIOD = 6;
+const MAX_TABS = 10;
+
 console.log("opening background.js to add alarms");
 
 // chrome.runtime.onInstalled.addListener(() => {
 // console.log('onInstalled, adding alarm and key command event listeners')
 // create alarm after extension is installed / upgraded
-chrome.alarms.create("refresh", { periodInMinutes: 6 });
+chrome.alarms.create("refresh", { periodInMinutes: REFRESH_PERIOD });
 
 // document.addEventListener('keydown', function(event) {
 //   console.log('event in polling.js', event);
@@ -41,12 +44,12 @@ chrome.commands.onCommand.addListener(function (command) {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   console.log("alarm triggered", alarm.name); // refresh
-  chrome.storage.local.get("wakeUpEnabled", function ({wakeUpEnabled}) {
-    console.log('wakeUpEnabled', wakeUpEnabled);
-    if(wakeUpEnabled) {
+  chrome.storage.local.get("wakeUpEnabled", function ({ wakeUpEnabled }) {
+    console.log("wakeUpEnabled", wakeUpEnabled);
+    if (wakeUpEnabled) {
       wakeUpATab();
     }
-  })
+  });
 });
 
 // todo: this is copy pasted, should be shared
@@ -62,30 +65,39 @@ async function shuffle() {
 }
 
 function wakeUpATab() {
-  chrome.storage.local.get("tabs", function (result) {
-    const tabList = Object.values(result.tabs);
-    tabList.sort((a, b) => (a.wakeUpAt > b.wakeUpAt ? 1 : -1));
-    console.log(
-      "loaded tabs",
-      result,
-      tabList.length,
-      tabList.map(({ wakeUpAt }) => new Date(wakeUpAt))
-    );
-    if (tabList.length) {
-      const tab = tabList[0];
-      console.log("checking timeout for ", tab);
-      console.log("currentTime", new Date());
-      console.log("wake up time", new Date(tab.wakeUpAt));
-      if (tab.wakeUpAt < new Date().getTime()) {
-        console.log("opening new tab ", tab.url);
-        chrome.tabs.create({ url: tab.url, active: false });
-        chrome.storage.local.get("tabs", function (result) {
-          const newTabList = tabList.filter(({ url }) => url !== tab.url);
-          chrome.storage.local.set({ tabs: newTabList }, function (cb) {
-            console.log("tab storage updated to ", newTabList);
-          });
-        });
-      }
+  let queryOptions = { pinned: false, currentWindow: false };
+
+  chrome.tabs.query(queryOptions).then((tabs) => {
+    if (tabs.length > MAX_TABS) {
+      console.log("dont wake up any more tabs");
+      return;
+    } else {
+      chrome.storage.local.get("tabs", function (result) {
+        const tabList = Object.values(result.tabs);
+        tabList.sort((a, b) => (a.wakeUpAt > b.wakeUpAt ? 1 : -1));
+        console.log(
+          "loaded tabs",
+          result,
+          tabList.length,
+          tabList.map(({ wakeUpAt }) => new Date(wakeUpAt))
+        );
+        if (tabList.length) {
+          const tab = tabList[0];
+          console.log("checking timeout for ", tab);
+          console.log("currentTime", new Date());
+          console.log("wake up time", new Date(tab.wakeUpAt));
+          if (tab.wakeUpAt < new Date().getTime()) {
+            console.log("opening new tab ", tab.url);
+            chrome.tabs.create({ url: tab.url, active: false });
+            chrome.storage.local.get("tabs", function (result) {
+              const newTabList = tabList.filter(({ url }) => url !== tab.url);
+              chrome.storage.local.set({ tabs: newTabList }, function (cb) {
+                console.log("tab storage updated to ", newTabList);
+              });
+            });
+          }
+        }
+      });
     }
   });
 }

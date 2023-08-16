@@ -22,18 +22,24 @@ document.addEventListener("DOMContentLoaded", () => {
       }`;
     }
   });
-  chrome.storage.local.get("wakeUpEnabled", async function ({wakeUpEnabled}) {
-    console.log('wakeUpEnabled', wakeUpEnabled);
-    
-    document.getElementById("wakeUpEnabled").textContent = `Wakeup ${wakeUpEnabled ? 'Enabled': 'Disabled'}`;
-    
-    document.getElementById("wakeUpEnabled").addEventListener("click", () => {
-      chrome.storage.local.set({ wakeUpEnabled: !wakeUpEnabled }, function (cb) {
-        console.log("waking up enabled / disabled");
-        // todo: also change event listener now
-        document.getElementById("wakeUpEnabled").textContent = `Wakeup ${!wakeUpEnabled ? 'Enabled': 'Disabled'}`;
+  chrome.storage.local.get("wakeUpEnabled", async function ({ wakeUpEnabled }) {
+    console.log("wakeUpEnabled", wakeUpEnabled);
 
-      });
+    document.getElementById("wakeUpEnabled").textContent = `Wakeup ${
+      wakeUpEnabled ? "Enabled" : "Disabled"
+    }`;
+
+    document.getElementById("wakeUpEnabled").addEventListener("click", () => {
+      chrome.storage.local.set(
+        { wakeUpEnabled: !wakeUpEnabled },
+        function (cb) {
+          console.log("waking up enabled / disabled");
+          // todo: also change event listener now
+          document.getElementById("wakeUpEnabled").textContent = `Wakeup ${
+            !wakeUpEnabled ? "Enabled" : "Disabled"
+          }`;
+        }
+      );
     });
   });
   console.log("added event listeners");
