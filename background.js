@@ -3,7 +3,7 @@ console.log("opening background.js to add alarms");
 // chrome.runtime.onInstalled.addListener(() => {
 // console.log('onInstalled, adding alarm and key command event listeners')
 // create alarm after extension is installed / upgraded
-chrome.alarms.create("refresh", { periodInMinutes: 3 });
+chrome.alarms.create("refresh", { periodInMinutes: 6 });
 
 // document.addEventListener('keydown', function(event) {
 //   console.log('event in polling.js', event);
