@@ -3,6 +3,8 @@ const MAX_TABS = 10;
 
 console.log("opening background.js to add alarms");
 
+wakeUpATab();
+
 // chrome.runtime.onInstalled.addListener(() => {
 // console.log('onInstalled, adding alarm and key command event listeners')
 // create alarm after extension is installed / upgraded
@@ -65,9 +67,10 @@ async function shuffle() {
 }
 
 function wakeUpATab() {
-  let queryOptions = { pinned: false, currentWindow: false };
+  let queryOptions = { pinned: false };
 
   chrome.tabs.query(queryOptions).then((tabs) => {
+    console.log('open tabs', tabs.length, tabs);
     if (tabs.length > MAX_TABS) {
       console.log("dont wake up any more tabs");
       return;
