@@ -71,7 +71,7 @@ function wakeUpATab() {
   let queryOptions = { pinned: false };
 
   chrome.tabs.query(queryOptions).then((tabs) => {
-    console.log('open tabs', tabs.length, tabs);
+    console.log("open tabs", tabs.length, tabs);
     if (tabs.length > MAX_TABS) {
       console.log("dont wake up any more tabs");
       return;

@@ -4,12 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "format": "prettier --write ."
+    "prepate": "husky install",
+    "format": "prettier --write .",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "14.0.1",
     "prettier": "^2.8.8"
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write"
+    ]
   }
 }
