@@ -1,9 +1,10 @@
-const REFRESH_PERIOD = 6;
+// todo: make these variable
+const REFRESH_PERIOD = 4;
 const MAX_TABS = 10;
 
 console.log("opening background.js to add alarms");
 
-wakeUpATab();
+// wakeUpATab();
 
 // chrome.runtime.onInstalled.addListener(() => {
 // console.log('onInstalled, adding alarm and key command event listeners')
