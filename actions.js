@@ -80,7 +80,7 @@ async function snooze() {
   console.log("snoozing ", tabs, urls);
   chrome.storage.local.get("tabs", function (alreadySnoozed) {
     chrome.storage.local.set(
-      { tabs: [...urls, ...alreadySnoozed.tabs] },
+      { tabs: [...alreadySnoozed.tabs, ...urls] },
       function (cb) {
         console.log("Value is set to ", cb);
       }
