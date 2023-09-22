@@ -109,16 +109,21 @@ function wakeUpATab() {
 async function snoozeATAb() {
   let queryOptions = { pinned: false, active: true, currentWindow: true };
   const tabs = await chrome.tabs.query(queryOptions);
-  const urls = tabs.map(({ url }, index) => ({
-    url,
-    wakeUpAt:
-      new Date().getTime() +
-      Math.random() * (index + 1) * (index + 1) * tabs.length * 1000,
-  }));
-  console.log("snoozing ", tabs, urls);
 
   // todo: same as in snoozeALl method in actions.js , can be extracted
   chrome.storage.local.get("tabs", function (alreadySnoozed) {
+    const urls = tabs.map(({ url }, index) => ({
+      url,
+      wakeUpAt:
+        new Date().getTime() +
+        Math.random() *
+          (index + 1) *
+          (index + 1) *
+          alreadySnoozed.length *
+          1000,
+    }));
+    console.log("snoozing ", tabs, urls);
+
     console.log("adding tab to ", alreadySnoozed);
     chrome.storage.local
       .set({ tabs: [...urls, ...alreadySnoozed.tabs] })
