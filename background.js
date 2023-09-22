@@ -107,20 +107,26 @@ function wakeUpATab() {
 }
 
 async function snoozeATAb() {
+  console.log("snoozing a single tab in the background");
   let queryOptions = { pinned: false, active: true, currentWindow: true };
   const tabs = await chrome.tabs.query(queryOptions);
 
   // todo: same as in snoozeALl method in actions.js , can be extracted
   chrome.storage.local.get("tabs", function (alreadySnoozed) {
-    const urls = tabs.map(({ url }, index) => ({
+    const FOUR_HOURS = 4 * 60 * 60 * 1000;
+    const MINUTE = 60 * 1000;
+    const wakeUpAt =
+      new Date().getTime() +
+      Math.min(
+        Math.round(Math.random() * alreadySnoozed.tabs.length * MINUTE),
+        FOUR_HOURS
+      );
+
+    console.log("new wakeUpTime", wakeUpAt);
+
+    const urls = tabs.map(({ url }) => ({
       url,
-      wakeUpAt:
-        new Date().getTime() +
-        Math.random() *
-          (index + 1) *
-          (index + 1) *
-          alreadySnoozed.length *
-          1000,
+      wakeUpAt,
     }));
     console.log("snoozing ", tabs, urls);
 

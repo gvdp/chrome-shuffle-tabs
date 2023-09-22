@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     merge();
   });
   document.getElementById("snooze").addEventListener("click", () => {
+    console.log("snooze clicked");
     snooze();
   });
   document.getElementById("unsnooze").addEventListener("click", () => {
@@ -74,6 +75,7 @@ async function shuffle() {
 }
 
 async function snooze() {
+  console.log("snoozing single tab as action");
   let queryOptions = { pinned: false, currentWindow: true };
   // todo: the active can maybe also e given as queryOption
   const tabs = (await chrome.tabs.query(queryOptions)).filter(
@@ -81,11 +83,14 @@ async function snooze() {
   );
   const FOUR_HOURS = 4 * 60 * 60 * 1000;
   const MINUTE = 60 * 1000;
-  const urls = tabs.map(({ url }, index) => ({
+  const wakeUpAt =
+    new Date().getTime() +
+    Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS);
+  console.log("new wakeUpTime", wakeUpAt);
+
+  const urls = tabs.map(({ url }) => ({
     url,
-    wakeUpAt:
-      new Date().getTime() +
-      Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS),
+    wakeUpAt,
   }));
 
   console.log("snoozing ", tabs, urls);
