@@ -75,7 +75,7 @@ async function shuffle() {
 }
 
 async function snooze() {
-  console.log("snoozing single tab as action");
+  console.log("snoozing all tabs as action");
   let queryOptions = { pinned: false, currentWindow: true };
   // todo: the active can maybe also e given as queryOption
   const tabs = (await chrome.tabs.query(queryOptions)).filter(
@@ -90,7 +90,9 @@ async function snooze() {
 
   const urls = tabs.map(({ url }) => ({
     url,
-    wakeUpAt,
+    wakeUpAt:
+      new Date().getTime() +
+      Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS),
   }));
 
   console.log("snoozing ", tabs, urls);
