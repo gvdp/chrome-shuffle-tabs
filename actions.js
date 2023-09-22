@@ -52,7 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   });
 
-  // wakeUpATab()
+  chrome.storage.local.get("tabs", function (currentlySnoozed) {
+    console.log(
+      "currentlySnoozed",
+      currentlySnoozed.tabs.map((tab) => ({
+        ...tab,
+        wakeTime: new Date(tab.wakeUpAt),
+      }))
+    );
+  });
 });
 
 async function shuffle() {
