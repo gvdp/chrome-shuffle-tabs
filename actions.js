@@ -79,12 +79,15 @@ async function snooze() {
   const tabs = (await chrome.tabs.query(queryOptions)).filter(
     ({ active }) => !active
   );
+  const FOUR_HOURS = 4 * 60 * 60 * 1000;
+  const MINUTE = 60 * 1000;
   const urls = tabs.map(({ url }, index) => ({
     url,
     wakeUpAt:
       new Date().getTime() +
-      Math.random() * (index + 1) * (index + 1) * tabs.length * 1000,
+      Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS),
   }));
+
   console.log("snoozing ", tabs, urls);
   chrome.storage.local.get("tabs", function (alreadySnoozed) {
     chrome.storage.local.set(
