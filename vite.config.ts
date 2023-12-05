@@ -61,7 +61,7 @@ export default defineConfig({
   ],
   // publicDir,
   build: {
-    outDir: "dist",
+    outDir: isDev ? "dev" : "dist",
     // sourcemap: true,
     // emptyOutDir: !isDev
   },
