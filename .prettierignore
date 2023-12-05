@@ -1,3 +1,4 @@
 yarn.lock
 .husky
 .prettierignore
+.gitignore

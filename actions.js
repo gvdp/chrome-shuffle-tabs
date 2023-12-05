@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
   chrome.storage.local.get("tabs", function (currentlySnoozed) {
     console.log(
       "currentlySnoozed",
-      currentlySnoozed.tabs.map((tab) => ({
+      currentlySnoozed.tabs?.map((tab) => ({
         ...tab,
         wakeTime: new Date(tab.wakeUpAt),
       }))
@@ -97,8 +97,14 @@ async function snooze() {
 
   console.log("snoozing ", tabs, urls);
   chrome.storage.local.get("tabs", function (alreadySnoozed) {
+    console.log("alreadySnoozed ", alreadySnoozed);
     chrome.storage.local.set(
-      { tabs: [...alreadySnoozed.tabs, ...urls] },
+      {
+        tabs: [
+          ...(alreadySnoozed?.tabs?.length ? alreadySnoozed.tabs : []),
+          ...urls,
+        ],
+      },
       function (cb) {
         console.log("Value is set to ", cb);
       }

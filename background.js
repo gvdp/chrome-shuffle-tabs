@@ -1,3 +1,10 @@
+// src/background.ts
+import browser from "webextension-polyfill";
+
+browser.runtime.onInstalled.addListener(() => {
+  console.log("Installedd!");
+});
+
 // todo: make these variable
 const REFRESH_PERIOD = 4;
 const MAX_TABS = 10;
