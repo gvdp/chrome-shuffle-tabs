@@ -140,6 +140,26 @@ export async function unsnooze() {
   });
 }
 
+export async function unsnoozeSome(number = 10) {
+  chrome.storage.local.get("tabs", async function (result) {
+    const tabList = result.tabs;
+    const toUnsnooze = number > 0 ? tabList.slice(0, number) : tabList;
+    console.log("unsnoozing tabs", result, tabList.length);
+    for (const tab of toUnsnooze) {
+      console.log("opening new tab ", tab.url);
+      chrome.tabs.create({ url: tab.url, active: false });
+    }
+    const remaining = tabList.filter(
+      ({ url }) => !toUnsnooze.map(({ url }) => url).includes(url)
+    );
+    console.log("remaining", remaining);
+
+    chrome.storage.local.set({ tabs: remaining }, function (cb) {
+      console.log("tab storage updated with remaining tabs");
+    });
+  });
+}
+
 export async function merge() {
   const windows = await chrome.windows.getAll({ populate: true });
 

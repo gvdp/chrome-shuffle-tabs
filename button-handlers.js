@@ -1,4 +1,4 @@
-import { shuffle, merge, snooze, unsnooze } from "./src/actions";
+import { shuffle, merge, snooze, unsnooze, unsnoozeSome } from "./src/actions";
 
 console.log("adding event listeners in acionts.js");
 
@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   document.getElementById("unsnooze").addEventListener("click", () => {
     unsnooze();
+  });
+  document.getElementById("unsnoozeSome").addEventListener("click", () => {
+    unsnoozeSome();
   });
 
   chrome.storage.local.get("tabs", async function (result) {
