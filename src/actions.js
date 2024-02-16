@@ -142,6 +142,8 @@ export async function unsnooze() {
 export async function unsnoozeSome(number = 10) {
   chrome.storage.local.get("tabs", async function (result) {
     const tabList = result.tabs;
+    tabList.sort((a, b) => (Math.random() > Math.random() ? 1 : -1));
+
     const toUnsnooze = number > 0 ? tabList.slice(0, number) : tabList;
     console.log("unsnoozing tabs", result, tabList.length);
     for (const tab of toUnsnooze) {
