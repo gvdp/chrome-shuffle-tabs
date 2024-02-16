@@ -25,28 +25,24 @@ export function wakeUpATab() {
     } else {
       chrome.storage.local.get("tabs", function (result) {
         const tabList = Object.values(result.tabs);
-        tabList.sort((a, b) => (a.wakeUpAt > b.wakeUpAt ? 1 : -1));
-        console.log(
-          "loaded tabs",
-          result,
-          tabList.length,
-          tabList.map(({ wakeUpAt }) => new Date(wakeUpAt))
-        );
+        tabList.sort((a, b) => (Math.random() > Math.random() ? 1 : -1));
+        console.log("loaded tabs", result, tabList.length);
+
         if (tabList.length) {
           const tab = tabList[0];
-          console.log("checking timeout for ", tab);
-          console.log("currentTime", new Date());
-          console.log("wake up time", new Date(tab.wakeUpAt));
-          if (tab.wakeUpAt < new Date().getTime()) {
-            console.log("opening new tab ", tab.url);
-            chrome.tabs.create({ url: tab.url, active: false });
-            chrome.storage.local.get("tabs", function (result) {
-              const newTabList = tabList.filter(({ url }) => url !== tab.url);
-              chrome.storage.local.set({ tabs: newTabList }, function (cb) {
-                console.log("tab storage updated to ", newTabList);
-              });
+          // console.log("checking timeout for ", tab);
+          // console.log("currentTime", new Date());
+          // console.log("wake up time", new Date(tab.wakeUpAt));
+          // if (tab.wakeUpAt < new Date().getTime()) {
+          // }
+          console.log("opening new tab ", tab.url);
+          chrome.tabs.create({ url: tab.url, active: false });
+          chrome.storage.local.get("tabs", function (result) {
+            const newTabList = tabList.filter(({ url }) => url !== tab.url);
+            chrome.storage.local.set({ tabs: newTabList }, function (cb) {
+              console.log("tab storage updated to ", newTabList);
             });
-          }
+          });
         }
       });
     }
