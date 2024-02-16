@@ -17,6 +17,9 @@ export function wakeUpATab() {
   chrome.tabs.query(queryOptions).then((tabs) => {
     console.log("open tabs", tabs.length, tabs);
     if (tabs.length > MAX_TABS) {
+      chrome.storage.local.set({ wakeUpEnabled: false }, function (cb) {
+        console.log("waking up disabled");
+      });
       console.log("dont wake up any more tabs");
       return;
     } else {
