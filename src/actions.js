@@ -45,6 +45,9 @@ export function wakeUpATab() {
             const newTabList = tabList.filter(({ url }) => url !== tab.url);
             chrome.storage.local.set({ tabs: newTabList }, function (cb) {
               console.log("tab storage updated to ", newTabList);
+              chrome.action.setBadgeText({
+                text: newTabList.length.toString(),
+              });
             });
           });
         }
