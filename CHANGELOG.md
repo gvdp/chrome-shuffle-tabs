@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.2.0...v1.3.0) (2024-10-08)
+
+### Features
+
+- add badge to extension icon to determine how many tabs are snoozed ([a11dbd1](https://github.com/gvdp/chrome-shuffle-tabs/commit/a11dbd1379e4f156cd8c189ce8a927708c6750a6))
+
 ## [1.2.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.1.0...v1.2.0) (2024-02-16)
 
 ### Features
