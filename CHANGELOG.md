@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.2](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.3.1...v1.3.2) (2024-10-08)
+
+### Bug Fixes
+
+- also update badge count when waking up a tab ([bc66d4f](https://github.com/gvdp/chrome-shuffle-tabs/commit/bc66d4fcdfa6580b8cf15628098bae92bf7d93c2))
+
 ### [1.3.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.3.0...v1.3.1) (2024-10-08)
 
 ### Bug Fixes
