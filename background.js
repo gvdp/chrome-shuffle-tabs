@@ -37,3 +37,21 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     }
   });
 });
+
+chrome.storage.local.get("tabs", async function (result) {
+  console.log("got tabs", result);
+  if (result) {
+    const tabList = Object.values(result?.tabs || {});
+    const count = tabList?.length || 0;
+    // document.getElementById("tabcount").textContent = `Snoozed tabs: ${count}`;
+    chrome.action.setBadgeText({ text: count.toString() });
+  }
+});
+
+chrome.storage.local.get("wakeUpEnabled", async function ({ wakeUpEnabled }) {
+  console.log("wakeUpEnabled", wakeUpEnabled);
+
+  chrome.action.setBadgeBackgroundColor({
+    color: wakeUpEnabled ? "green" : "lightsteelblue",
+  });
+});

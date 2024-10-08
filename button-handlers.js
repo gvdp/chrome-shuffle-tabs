@@ -21,15 +21,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   chrome.storage.local.get("tabs", async function (result) {
+    console.log("got tabs", result);
     if (result) {
       const tabList = Object.values(result?.tabs || {});
-      document.getElementById("tabcount").textContent = `Snoozed tabs: ${
-        tabList?.length || "0"
-      }`;
+      const count = tabList?.length || 0;
+      document.getElementById(
+        "tabcount"
+      ).textContent = `Snoozed tabs: ${count}`;
+      chrome.action.setBadgeText({ text: count.toString() });
     }
   });
+
   chrome.storage.local.get("wakeUpEnabled", async function ({ wakeUpEnabled }) {
     console.log("wakeUpEnabled", wakeUpEnabled);
+
+    chrome.action.setBadgeBackgroundColor({
+      color: wakeUpEnabled ? "green" : "lightsteelblue",
+    });
 
     document.getElementById("wakeUpEnabled").textContent = `Wakeup ${
       wakeUpEnabled ? "Enabled" : "Disabled"
@@ -39,11 +47,15 @@ document.addEventListener("DOMContentLoaded", () => {
       chrome.storage.local.set(
         { wakeUpEnabled: !wakeUpEnabled },
         function (cb) {
-          console.log("waking up enabled / disabled");
+          wakeUpEnabled = !wakeUpEnabled;
+          console.log("waking up enabled / disabled", wakeUpEnabled);
           // todo: also change event listener now
           document.getElementById("wakeUpEnabled").textContent = `Wakeup ${
-            !wakeUpEnabled ? "Enabled" : "Disabled"
+            wakeUpEnabled ? "Enabled" : "Disabled"
           }`;
+          chrome.action.setBadgeBackgroundColor({
+            color: wakeUpEnabled ? "green" : "lightsteelblue",
+          });
         }
       );
     });
