@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.3.0...v1.3.1) (2024-10-08)
+
+### Bug Fixes
+
+- also change badge color when unsnoozing and wakeup status changes ([aad051b](https://github.com/gvdp/chrome-shuffle-tabs/commit/aad051b310daddb7e885fdc10873fdaffbc6b453))
+
 ## [1.3.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.2.0...v1.3.0) (2024-10-08)
 
 ### Features
