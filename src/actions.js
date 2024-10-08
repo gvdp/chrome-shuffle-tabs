@@ -17,8 +17,12 @@ export function wakeUpATab() {
   chrome.tabs.query(queryOptions).then((tabs) => {
     console.log("open tabs", tabs.length, tabs);
     if (tabs.length > MAX_TABS) {
-      chrome.storage.local.set({ wakeUpEnabled: false }, function (cb) {
+      const wakeUpEnabled = false;
+      chrome.storage.local.set({ wakeUpEnabled }, function (cb) {
         console.log("waking up disabled");
+      });
+      chrome.action.setBadgeBackgroundColor({
+        color: wakeUpEnabled ? "green" : "lightsteelblue",
       });
       console.log("dont wake up any more tabs");
       return;
