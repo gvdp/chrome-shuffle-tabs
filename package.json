@@ -7,7 +7,6 @@
   "scripts": {
     "start": "DEV=true vite dev",
     "build": "vite build",
-    "prepate": "husky install",
     "format": "prettier --write .",
     "prepare": "husky install"
   },
