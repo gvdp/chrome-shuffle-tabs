@@ -40,15 +40,23 @@ export function wakeUpATab() {
           // if (tab.wakeUpAt < new Date().getTime()) {
           // }
           console.log("opening new tab ", tab.url);
-          chrome.tabs.create({ url: tab.url, active: false, windowId: 0 });
-          chrome.storage.local.get("tabs", function (result) {
-            const newTabList = tabList.filter(({ url }) => url !== tab.url);
-            chrome.storage.local.set({ tabs: newTabList }, function (cb) {
-              console.log("tab storage updated to ", newTabList);
-              chrome.action.setBadgeText({
-                text: newTabList.length.toString(),
+          chrome.windows.getAll((windows) => {
+            const windowId = windows[0].id;
+            chrome.tabs
+              .create({ url: tab.url, active: false, windowId })
+              .then(() => {
+                chrome.storage.local.get("tabs", function (result) {
+                  const newTabList = tabList.filter(
+                    ({ url }) => url !== tab.url
+                  );
+                  chrome.storage.local.set({ tabs: newTabList }, function (cb) {
+                    console.log("tab storage updated to ", newTabList);
+                    chrome.action.setBadgeText({
+                      text: newTabList.length.toString(),
+                    });
+                  });
+                });
               });
-            });
           });
         }
       });

@@ -3,6 +3,7 @@ import { shuffle, snoozeATAb, wakeUpATab } from "./src/actions";
 
 browser.runtime.onInstalled.addListener(() => {
   console.log("Installedd!");
+  wakeUpATab();
 });
 
 // todo: make this variable
