@@ -40,7 +40,7 @@ export function wakeUpATab() {
           // if (tab.wakeUpAt < new Date().getTime()) {
           // }
           console.log("opening new tab ", tab.url);
-          chrome.tabs.create({ url: tab.url, active: false });
+          chrome.tabs.create({ url: tab.url, active: false, windowId: 0 });
           chrome.storage.local.get("tabs", function (result) {
             const newTabList = tabList.filter(({ url }) => url !== tab.url);
             chrome.storage.local.set({ tabs: newTabList }, function (cb) {
@@ -82,7 +82,7 @@ export async function snoozeATAb() {
 
     console.log("adding tab to ", alreadySnoozed);
     chrome.storage.local
-      .set({ tabs: [...urls, ...alreadySnoozed.tabs] })
+      .set({ tabs: [...alreadySnoozed.tabs, ...urls] })
       .then((cb) => {
         console.log("Value is set to ", cb);
       })
@@ -146,13 +146,14 @@ export async function unsnooze() {
   });
 }
 
-export async function unsnoozeSome(number = 10) {
+export async function unsnoozeSome(number = 5) {
   chrome.storage.local.get("tabs", async function (result) {
     const tabList = result.tabs;
-    tabList.sort((a, b) => (Math.random() > Math.random() ? 1 : -1));
+    const firstPart = tabList.slice(0, tabList.length);
+    firstPart.sort((a, b) => (Math.random() > Math.random() ? 1 : -1));
 
-    const toUnsnooze = number > 0 ? tabList.slice(0, number) : tabList;
-    console.log("unsnoozing tabs", result, tabList.length);
+    const toUnsnooze = number > 0 ? firstPart.slice(0, number) : firstPart;
+    console.log("unsnoozing tabs");
     for (const tab of toUnsnooze) {
       console.log("opening new tab ", tab.url);
       chrome.tabs.create({ url: tab.url, active: false });
