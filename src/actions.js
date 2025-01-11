@@ -10,6 +10,20 @@ export async function shuffle() {
   }
 }
 
+export async function merge() {
+  const windows = await chrome.windows.getAll({ populate: true })
+
+  const firstWindow = windows[0]
+  const otherTabs = windows
+    .filter((window) => window !== firstWindow)
+    .reduce((allTabs, window) => {
+      return [...allTabs, ...window.tabs]
+    }, [])
+
+  const otherTabIds = otherTabs.map((tab) => tab.id)
+  await chrome.tabs.move(otherTabIds, { index: -1, windowId: firstWindow.id })
+}
+
 export function wakeUpATab() {
   let queryOptions = { pinned: false }
 
@@ -155,18 +169,4 @@ export async function unsnoozeSome(number = 5) {
       console.log('tab storage updated with remaining tabs')
     })
   })
-}
-
-export async function merge() {
-  const windows = await chrome.windows.getAll({ populate: true })
-
-  const firstWindow = windows[0]
-  const otherTabs = windows
-    .filter((window) => window !== firstWindow)
-    .reduce((allTabs, window) => {
-      return [...allTabs, ...window.tabs]
-    }, [])
-
-  const otherTabIds = otherTabs.map((tab) => tab.id)
-  await chrome.tabs.move(otherTabIds, { index: -1, windowId: firstWindow.id })
 }
