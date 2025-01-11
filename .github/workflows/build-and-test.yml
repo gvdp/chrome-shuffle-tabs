@@ -9,7 +9,7 @@ env:
 jobs:
   deps:
     runs-on: ubuntu-latest
-    name: "Download and cache deps"
+    name: 'Download and cache deps'
     steps:
       - uses: actions/checkout@v4
       - uses: volta-cli/action@v4

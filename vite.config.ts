@@ -1,12 +1,12 @@
 // import react from '@vitejs/plugin-react-swc';
 // import { resolve } from 'path';
 // import fs from 'fs';
-import { defineConfig } from "vite";
-import { crx, ManifestV3Export } from "@crxjs/vite-plugin";
+import { defineConfig } from 'vite'
+import { crx, ManifestV3Export } from '@crxjs/vite-plugin'
 
-import manifest from "./manifest.json";
+import manifest from './manifest.json'
 // import devManifest from './manifest.dev.json';
-import pkg from "./package.json";
+import pkg from './package.json'
 
 // const root = resolve(__dirname, 'src');
 // const pagesDir = resolve(root, 'pages');
@@ -14,15 +14,15 @@ import pkg from "./package.json";
 // const outDir = resolve(__dirname, 'dist');
 // const publicDir = resolve(__dirname, 'public');
 
-console.log("process.env", process.env.DEV === "true");
-const isDev = process.env.DEV === "true";
+console.log('process.env', process.env.DEV === 'true')
+const isDev = process.env.DEV === 'true'
 
 const extensionManifest = {
   ...manifest,
   // ...(isDev ? devManifest : {} as ManifestV3Export),
   name: isDev ? `DEV: ${manifest.name}` : manifest.name,
   version: pkg.version,
-};
+}
 
 // plugin to remove dev icons from prod build
 // function stripDevIcons (apply: boolean) {
@@ -61,8 +61,8 @@ export default defineConfig({
   ],
   // publicDir,
   build: {
-    outDir: isDev ? "dev" : "dist",
+    outDir: isDev ? 'dev' : 'dist',
     // sourcemap: true,
     // emptyOutDir: !isDev
   },
-});
+})
