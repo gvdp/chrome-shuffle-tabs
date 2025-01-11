@@ -16,6 +16,12 @@
     "test": "c8 ava",
     "test:watch": "ava --watch"
   },
+  "c8": {
+    "reporter": [
+      "text",
+      "html"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
