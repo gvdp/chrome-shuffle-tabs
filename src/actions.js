@@ -2,11 +2,10 @@
 const MAX_TABS = 10;
 
 export async function shuffle() {
-  console.log("shufflin in the shared");
-  let queryOptions = { pinned: false, currentWindow: true };
+  const queryOptions = { pinned: false, currentWindow: true };
   const tabs = await chrome.tabs.query(queryOptions);
   for (const tab of tabs) {
-    const targetIndex = Math.round(Math.random() * tabs.length);
+    const targetIndex = Math.floor(Math.random() * tabs.length);
     await chrome.tabs.move(tab.id, { index: targetIndex });
   }
 }
