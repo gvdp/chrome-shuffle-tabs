@@ -19,7 +19,8 @@
   "c8": {
     "reporter": [
       "text",
-      "html"
+      "html",
+      "cobertura"
     ]
   },
   "keywords": [],
