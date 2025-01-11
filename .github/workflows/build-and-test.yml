@@ -2,6 +2,9 @@ name: Build and test
 
 on:
   push:
+  pull_request:
+    branches:
+      - main
 
 env:
   VOLTA_FEATURE_PNPM: 1
