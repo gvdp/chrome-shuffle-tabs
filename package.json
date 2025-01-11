@@ -7,7 +7,10 @@
   "scripts": {
     "start": "DEV=true vite dev",
     "build": "vite build",
-    "format": "prettier --write .",
+    "lint": "concurrently -n lint \"pnpm:lint:*(!fix)\"",
+    "lint:fix": "concurrently -n lint-fix \"pnpm:lint:*:fix\"",
+    "lint:format": "prettier --check .",
+    "lint:format:fix": "prettier --write .",
     "release": "npx standard-version",
     "prepare": "husky install",
     "test": "ava",
