@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('wakeUpEnabled').textContent = `Wakeup ${wakeUpEnabled ? 'Enabled' : 'Disabled'}`
 
     document.getElementById('wakeUpEnabled').addEventListener('click', () => {
-      chrome.storage.local.set({ wakeUpEnabled: !wakeUpEnabled }, function (cb) {
+      chrome.storage.local.set({ wakeUpEnabled: !wakeUpEnabled }, function () {
         wakeUpEnabled = !wakeUpEnabled
         console.log('waking up enabled / disabled', wakeUpEnabled)
         // todo: also change event listener now

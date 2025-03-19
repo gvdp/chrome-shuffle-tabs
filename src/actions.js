@@ -31,7 +31,7 @@ export function wakeUpATab() {
     console.log('open tabs', tabs.length, tabs)
     if (tabs.length > MAX_TABS) {
       const wakeUpEnabled = false
-      chrome.storage.local.set({ wakeUpEnabled }, function (cb) {
+      chrome.storage.local.set({ wakeUpEnabled }, function () {
         console.log('waking up disabled')
       })
       chrome.action.setBadgeBackgroundColor({
@@ -42,7 +42,7 @@ export function wakeUpATab() {
     } else {
       chrome.storage.local.get('tabs', function (result) {
         const tabList = Object.values(result.tabs)
-        tabList.sort((a, b) => (Math.random() > Math.random() ? 1 : -1))
+        tabList.sort(() => (Math.random() > Math.random() ? 1 : -1))
         console.log('loaded tabs', result, tabList.length)
 
         if (tabList.length) {
@@ -56,9 +56,9 @@ export function wakeUpATab() {
           chrome.windows.getAll((windows) => {
             const windowId = windows[0].id
             chrome.tabs.create({ url: tab.url, active: false, windowId }).then(() => {
-              chrome.storage.local.get('tabs', function (result) {
+              chrome.storage.local.get('tabs', function () {
                 const newTabList = tabList.filter(({ url }) => url !== tab.url)
-                chrome.storage.local.set({ tabs: newTabList }, function (cb) {
+                chrome.storage.local.set({ tabs: newTabList }, function () {
                   console.log('tab storage updated to ', newTabList)
                   chrome.action.setBadgeText({
                     text: newTabList.length.toString(),
@@ -144,7 +144,7 @@ export async function unsnooze() {
       chrome.tabs.create({ url: tab.url, active: false })
     }
 
-    chrome.storage.local.set({ tabs: [] }, function (cb) {
+    chrome.storage.local.set({ tabs: [] }, function () {
       console.log('tab storage emptied')
     })
   })
@@ -154,7 +154,7 @@ export async function unsnoozeSome(number = 5) {
   chrome.storage.local.get('tabs', async function (result) {
     const tabList = result.tabs
     const firstPart = tabList.slice(0, tabList.length)
-    firstPart.sort((a, b) => (Math.random() > Math.random() ? 1 : -1))
+    firstPart.sort(() => (Math.random() > Math.random() ? 1 : -1))
 
     const toUnsnooze = number > 0 ? firstPart.slice(0, number) : firstPart
     console.log('unsnoozing tabs')
@@ -165,7 +165,7 @@ export async function unsnoozeSome(number = 5) {
     const remaining = tabList.filter(({ url }) => !toUnsnooze.map(({ url }) => url).includes(url))
     console.log('remaining', remaining)
 
-    chrome.storage.local.set({ tabs: remaining }, function (cb) {
+    chrome.storage.local.set({ tabs: remaining }, function () {
       console.log('tab storage updated with remaining tabs')
     })
   })
