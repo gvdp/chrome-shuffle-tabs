@@ -31,11 +31,11 @@ chrome.commands.onCommand.addListener(function (command) {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   console.log('alarm triggered', alarm.name) // refresh
-  chrome.storage.local.get('wakeUpEnabled', function ({ wakeUpEnabled }) {
+  chrome.storage.local.get('wakeUpEnabled', async function ({ wakeUpEnabled }) {
     console.log('wakeUpEnabled', wakeUpEnabled)
     if (wakeUpEnabled) {
-      wakeUpATab()
-      wakeUpATab()
+      await wakeUpATab()
+      await wakeUpATab()
     }
   })
 })

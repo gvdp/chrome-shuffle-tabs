@@ -24,11 +24,10 @@ export async function merge() {
   await chrome.tabs.move(otherTabIds, { index: -1, windowId: firstWindow.id })
 }
 
-// todo: this should probably be async
-export function wakeUpATab() {
+export async function wakeUpATab() {
   let queryOptions = { pinned: false }
 
-  chrome.tabs.query(queryOptions).then((tabs) => {
+  await chrome.tabs.query(queryOptions).then((tabs) => {
     console.log('open tabs', tabs.length, tabs)
     if (tabs.length > MAX_TABS) {
       const wakeUpEnabled = false
@@ -41,33 +40,37 @@ export function wakeUpATab() {
       console.log('dont wake up any more tabs')
       return
     } else {
-      chrome.storage.local.get('tabs', function (result) {
-        const tabList = Object.values(result.tabs)
-        const firstHalfRandomTabList = [...tabList]
-          .slice(0, Math.max(1, Math.round(tabList.length / 2)))
-          .sort(() => (Math.random() > Math.random() ? 1 : -1))
+      return new Promise((resolve) => {
+        chrome.storage.local.get('tabs', function (result) {
+          const tabList = Object.values(result.tabs)
+          const firstHalfRandomTabList = [...tabList]
+            .slice(0, Math.max(1, Math.round(tabList.length / 2)))
+            .sort(() => (Math.random() > Math.random() ? 1 : -1))
 
-        console.log('loaded tabs', result, firstHalfRandomTabList, tabList.length)
+          console.log('loaded tabs', result, firstHalfRandomTabList, tabList.length)
 
-        if (tabList.length) {
-          const tabToOpen = firstHalfRandomTabList[0]
-          console.log('opening new tab ', tabToOpen.url)
-          chrome.windows.getAll((windows) => {
-            // todo: see if its possible to get the main window here
-            const windowId = windows[0].id
-            chrome.tabs.create({ url: tabToOpen.url, active: false, windowId }).then(() => {
-              chrome.storage.local.get('tabs', function () {
-                const newTabList = tabList.filter(({ url }) => url !== tabToOpen.url)
-                chrome.storage.local.set({ tabs: newTabList }, function () {
-                  console.log('tab storage updated to ', newTabList)
-                  chrome.action.setBadgeText({
-                    text: newTabList.length.toString(),
+          if (tabList.length) {
+            const tabToOpen = firstHalfRandomTabList[0]
+            console.log('opening new tab ', tabToOpen.url)
+            chrome.windows.getAll((windows) => {
+              // todo: see if its possible to get the main window here
+              const windowId = windows[0].id
+              chrome.tabs.create({ url: tabToOpen.url, active: false, windowId }).then(() => {
+                chrome.storage.local.get('tabs', function () {
+                  const newTabList = tabList.filter(({ url }) => url !== tabToOpen.url)
+                  chrome.storage.local.set({ tabs: newTabList }, function () {
+                    console.log('tab storage updated to ', newTabList)
+
+                    chrome.action.setBadgeText({
+                      text: newTabList.length.toString(),
+                    })
+                    resolve()
                   })
                 })
               })
             })
-          })
-        }
+          }
+        })
       })
     }
   })
