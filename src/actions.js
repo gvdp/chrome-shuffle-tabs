@@ -43,22 +43,21 @@ export function wakeUpATab() {
     } else {
       chrome.storage.local.get('tabs', function (result) {
         const tabList = Object.values(result.tabs)
-        tabList.sort(() => (Math.random() > Math.random() ? 1 : -1))
-        console.log('loaded tabs', result, tabList.length)
+        const firstHalfRandomTabList = [...tabList]
+          .slice(0, Math.max(1, Math.round(tabList.length / 2)))
+          .sort(() => (Math.random() > Math.random() ? 1 : -1))
+
+        console.log('loaded tabs', result, firstHalfRandomTabList, tabList.length)
 
         if (tabList.length) {
-          const tab = tabList[0]
-          // console.log("checking timeout for ", tab);
-          // console.log("currentTime", new Date());
-          // console.log("wake up time", new Date(tab.wakeUpAt));
-          // if (tab.wakeUpAt < new Date().getTime()) {
-          // }
-          console.log('opening new tab ', tab.url)
+          const tabToOpen = firstHalfRandomTabList[0]
+          console.log('opening new tab ', tabToOpen.url)
           chrome.windows.getAll((windows) => {
+            // todo: see if its possible to get the main window here
             const windowId = windows[0].id
-            chrome.tabs.create({ url: tab.url, active: false, windowId }).then(() => {
+            chrome.tabs.create({ url: tabToOpen.url, active: false, windowId }).then(() => {
               chrome.storage.local.get('tabs', function () {
-                const newTabList = tabList.filter(({ url }) => url !== tab.url)
+                const newTabList = tabList.filter(({ url }) => url !== tabToOpen.url)
                 chrome.storage.local.set({ tabs: newTabList }, function () {
                   console.log('tab storage updated to ', newTabList)
                   chrome.action.setBadgeText({
