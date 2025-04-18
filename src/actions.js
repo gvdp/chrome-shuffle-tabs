@@ -24,6 +24,7 @@ export async function merge() {
   await chrome.tabs.move(otherTabIds, { index: -1, windowId: firstWindow.id })
 }
 
+// todo: this should probably be async
 export function wakeUpATab() {
   let queryOptions = { pinned: false }
 

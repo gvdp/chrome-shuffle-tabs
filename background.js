@@ -7,7 +7,7 @@ browser.runtime.onInstalled.addListener(() => {
 })
 
 // todo: make this variable
-const REFRESH_PERIOD = 4
+const REFRESH_PERIOD = 2
 
 console.log('opening background.js to add alarms')
 
@@ -34,6 +34,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   chrome.storage.local.get('wakeUpEnabled', function ({ wakeUpEnabled }) {
     console.log('wakeUpEnabled', wakeUpEnabled)
     if (wakeUpEnabled) {
+      wakeUpATab()
       wakeUpATab()
     }
   })
