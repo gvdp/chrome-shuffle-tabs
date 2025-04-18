@@ -1,5 +1,5 @@
 // todo: make this variable
-const MAX_TABS = 10
+const MAX_TABS = 20
 
 export async function shuffle() {
   const queryOptions = { pinned: false, currentWindow: true }
