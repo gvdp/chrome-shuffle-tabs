@@ -1,4 +1,4 @@
-import { shuffle, merge, snooze, unsnooze, unsnoozeSome } from './src/actions'
+import { shuffle, merge, snooze, unsnooze, unsnoozeSome, moveTab } from './src/actions'
 
 console.log('adding event listeners in acionts.js')
 
@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
   })
   document.getElementById('merge').addEventListener('click', () => {
     merge()
+  })
+  document.getElementById('move').addEventListener('click', () => {
+    moveTab()
   })
   document.getElementById('snooze').addEventListener('click', () => {
     console.log('snooze clicked')

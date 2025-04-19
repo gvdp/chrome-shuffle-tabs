@@ -24,6 +24,31 @@ export async function merge() {
   await chrome.tabs.move(otherTabIds, { index: -1, windowId: firstWindow.id })
 }
 
+export async function moveTab() {
+  const windows = await chrome.windows.getAll({ populate: true })
+  const queryOptions = { pinned: false, active: true, currentWindow: true }
+  const tabs = await chrome.tabs.query(queryOptions)
+  console.log('tabs', tabs)
+  const thisTab = tabs[0]
+
+  console.log('windows', windows, thisTab)
+  const otherWindows = windows.filter((window) => window.id !== thisTab.windowId)
+  if (otherWindows.length > 1) {
+    throw new Error('dunno where to go')
+  }
+
+  const targetWindow = otherWindows[0]
+  // let queryOptions = { pinned: false, acktive: true, currentWindow: true }
+  // const tabs = await chrome.tabs.query(queryOptions)
+  // const thisTab = tabs[0]
+
+  console.log('moving tabs', tabs, ' to ', targetWindow)
+  await chrome.tabs.move(
+    tabs.map((tab) => tab.id),
+    { index: -1, windowId: targetWindow.id },
+  )
+}
+
 export async function wakeUpATab() {
   let queryOptions = { pinned: false }
 
@@ -110,9 +135,9 @@ export async function snoozeATAb() {
 
 export async function snooze() {
   console.log('snoozing all tabs as action')
-  let queryOptions = { pinned: false, currentWindow: true }
+  let tabQueryOptions = { pinned: false, currentWindow: true }
   // todo: the active can maybe also e given as queryOption
-  const tabs = (await chrome.tabs.query(queryOptions)).filter(({ active }) => !active)
+  const tabs = (await chrome.tabs.query(tabQueryOptions)).filter(({ active }) => !active)
   const FOUR_HOURS = 4 * 60 * 60 * 1000
   const MINUTE = 60 * 1000
   const wakeUpAt = new Date().getTime() + Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS)
