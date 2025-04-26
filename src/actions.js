@@ -1,6 +1,3 @@
-// todo: make this variable
-const MAX_TABS = 20
-
 export async function shuffle() {
   const queryOptions = { pinned: false, currentWindow: true }
   const tabs = await chrome.tabs.query(queryOptions)
@@ -49,19 +46,19 @@ export async function moveTab() {
   )
 }
 
-export async function wakeUpATab() {
+export async function wakeUpATab(maxTabs = 15) {
   let queryOptions = { pinned: false }
 
   await chrome.tabs.query(queryOptions).then((tabs) => {
-    console.log('open tabs', tabs.length, tabs)
-    if (tabs.length > MAX_TABS) {
-      const wakeUpEnabled = false
-      chrome.storage.local.set({ wakeUpEnabled }, function () {
-        console.log('waking up disabled')
-      })
-      chrome.action.setBadgeBackgroundColor({
-        color: wakeUpEnabled ? 'green' : 'lightsteelblue',
-      })
+    console.log('open tabs', tabs.length, maxTabs, tabs)
+    if (tabs.length > maxTabs) {
+      // const wakeUpEnabled = false
+      // chrome.storage.local.set({ wakeUpEnabled }, function () {
+      //   console.log('waking up disabled')
+      // })
+      // chrome.action.setBadgeBackgroundColor({
+      //   color: wakeUpEnabled ? 'green' : 'lightsteelblue',
+      // })
       console.log('dont wake up any more tabs')
       return
     } else {

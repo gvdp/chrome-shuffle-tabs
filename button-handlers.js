@@ -6,21 +6,32 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('shuffle').addEventListener('click', () => {
     shuffle()
   })
+
   document.getElementById('merge').addEventListener('click', () => {
     merge()
   })
+
   document.getElementById('move').addEventListener('click', () => {
     moveTab()
   })
+
   document.getElementById('snooze').addEventListener('click', () => {
     console.log('snooze clicked')
     snooze()
   })
+
   document.getElementById('unsnooze').addEventListener('click', () => {
     unsnooze()
   })
+
   document.getElementById('unsnoozeSome').addEventListener('click', () => {
     unsnoozeSome()
+  })
+  document.getElementById('maxTabs').addEventListener('change', (event) => {
+    console.log('change snoozing tabs', event.target.value)
+    chrome.storage.local.set({ maxTabs: Number(event.target.value) }, function (cb) {
+      console.log('maxTabs set ', cb)
+    })
   })
 
   chrome.storage.local.get('tabs', async function (result) {
@@ -62,6 +73,11 @@ document.addEventListener('DOMContentLoaded', () => {
       alarms,
       alarms.map(({ scheduledTime }) => new Date(scheduledTime)),
     )
+  })
+
+  chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
+    console.log('maxTabs value get', maxTabs)
+    document.getElementById('maxTabs').value = maxTabs
   })
 
   chrome.storage.local.get('tabs', function (currentlySnoozed) {

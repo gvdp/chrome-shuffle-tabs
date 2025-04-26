@@ -3,7 +3,10 @@ import { shuffle, snoozeATAb, wakeUpATab } from './src/actions'
 
 browser.runtime.onInstalled.addListener(() => {
   console.log('Installedd!')
-  wakeUpATab()
+  chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
+    await wakeUpATab(maxTabs)
+    await wakeUpATab(maxTabs)
+  })
 })
 
 // todo: make this variable
@@ -33,10 +36,12 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   console.log('alarm triggered', alarm.name) // refresh
   chrome.storage.local.get('wakeUpEnabled', async function ({ wakeUpEnabled }) {
     console.log('wakeUpEnabled', wakeUpEnabled)
-    if (wakeUpEnabled) {
-      await wakeUpATab()
-      await wakeUpATab()
-    }
+    chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
+      if (wakeUpEnabled) {
+        await wakeUpATab(maxTabs)
+        await wakeUpATab(maxTabs)
+      }
+    })
   })
 })
 
