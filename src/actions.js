@@ -75,7 +75,6 @@ export async function wakeUpATab(maxTabs = 15) {
             const tabToOpen = firstHalfRandomTabList[0]
             console.log('opening new tab ', tabToOpen.url)
             chrome.windows.getAll((windows) => {
-              // todo: see if its possible to get the main window here
               const windowId = windows[0].id
               chrome.tabs.create({ url: tabToOpen.url, active: false, windowId }).then(() => {
                 chrome.storage.local.get('tabs', function () {
