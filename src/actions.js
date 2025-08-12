@@ -66,6 +66,7 @@ export async function wakeUpATab(maxTabs = 15) {
         chrome.storage.local.get('tabs', function (result) {
           const tabList = Object.values(result.tabs)
           const firstHalfRandomTabList = [...tabList]
+            .filter(({ url }) => !tabs.some((openTab) => new URL(openTab.url).hostname === new URL(url).hostname))
             .slice(0, Math.max(1, Math.round(tabList.length / 2)))
             .sort(() => (Math.random() > Math.random() ? 1 : -1))
 
