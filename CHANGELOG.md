@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.3.4...v1.4.0) (2025-08-12)
+
+### Features
+
+- add input field to determine max tabs ([d3f4d5c](https://github.com/gvdp/chrome-shuffle-tabs/commit/d3f4d5c6243d97866b7ef407a46991509e2d8f2c))
+- dont wake up tabs with the same hostname ([727042c](https://github.com/gvdp/chrome-shuffle-tabs/commit/727042c13c8deffb1bfbc625223b931a2c54f5b9))
+- dont wake up tabs with the same hostname ([8317819](https://github.com/gvdp/chrome-shuffle-tabs/commit/83178195062fc1d2ac832dde14bbfecc530394c2))
+
 ### [1.3.4](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.3.3...v1.3.4) (2024-12-14)
 
 ### Bug Fixes
