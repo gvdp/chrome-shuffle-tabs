@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.4.3...v1.5.0) (2025-09-02)
+
+### Features
+
+- only wake up again after an hour ([47c3a9a](https://github.com/gvdp/chrome-shuffle-tabs/commit/47c3a9a110eb29baeec14d8443f7798f7d68a679))
+
 ### [1.4.3](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.4.2...v1.4.3) (2025-08-20)
 
 ### Bug Fixes
