@@ -52,20 +52,16 @@ export async function wakeUpATab(maxTabs = 15) {
   await chrome.tabs.query(queryOptions).then((tabs) => {
     console.log('open tabs', tabs.length, maxTabs, tabs)
     if (tabs.length > maxTabs) {
-      // const wakeUpEnabled = false
-      // chrome.storage.local.set({ wakeUpEnabled }, function () {
-      //   console.log('waking up disabled')
-      // })
-      // chrome.action.setBadgeBackgroundColor({
-      //   color: wakeUpEnabled ? 'green' : 'lightsteelblue',
-      // })
       console.log('dont wake up any more tabs')
       return
     } else {
       return new Promise((resolve) => {
         chrome.storage.local.get('tabs', function (result) {
+          console.log('result of chrome.storage.local.get', result)
           const tabList = Object.values(result.tabs)
+          console.log('tablist', tabList)
           const differentHostNamedTabs = [...tabList]
+            .filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
             .filter(({ url }) => {
               try {
                 new URL(url)
@@ -122,10 +118,9 @@ export async function snoozeATAb() {
 
   // todo: same as in snoozeALl method in actions.js , can be extracted
   chrome.storage.local.get('tabs', function (alreadySnoozed) {
-    const FOUR_HOURS = 4 * 60 * 60 * 1000
     const MINUTE = 60 * 1000
-    const wakeUpAt =
-      new Date().getTime() + Math.min(Math.round(Math.random() * alreadySnoozed.tabs.length * MINUTE), FOUR_HOURS)
+    const ONE_HOUR = 60 * MINUTE
+    const wakeUpAt = new Date().getTime() + ONE_HOUR
 
     console.log('new wakeUpTime', wakeUpAt)
 
