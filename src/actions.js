@@ -61,7 +61,6 @@ export async function wakeUpATab(maxTabs = 15) {
           const tabList = Object.values(result.tabs)
           console.log('tablist', tabList)
           const differentHostNamedTabs = [...tabList]
-            .filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
             .filter(({ url }) => {
               try {
                 new URL(url)
@@ -79,8 +78,13 @@ export async function wakeUpATab(maxTabs = 15) {
                     (openTab.pendingUrl && new URL(openTab.pendingUrl).hostname) === new URL(url).hostname,
                 ),
             )
-          const firstHalfRandomTabList = differentHostNamedTabs
-            .slice(0, Math.max(1, Math.round(differentHostNamedTabs.length / 2)))
+
+          const tabsToWakeUp = differentHostNamedTabs.some(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
+            ? differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
+            : differentHostNamedTabs
+
+          const firstHalfRandomTabList = tabsToWakeUp
+            .slice(0, Math.max(1, Math.round(tabsToWakeUp.length / 2)))
             .sort(() => (Math.random() > Math.random() ? 1 : -1))
 
           console.log('loaded tabs', result, firstHalfRandomTabList, tabList.length)

@@ -10,8 +10,7 @@ browser.runtime.onInstalled.addListener(() => {
 })
 
 // todo: make this variable
-const REFRESH_PERIOD = 2
-
+const REFRESH_PERIOD = 1
 console.log('opening background.js to add alarms')
 
 chrome.alarms.create('refresh', { periodInMinutes: REFRESH_PERIOD })
