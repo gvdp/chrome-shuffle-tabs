@@ -81,7 +81,7 @@ export async function wakeUpATab(maxTabs = 15) {
 
           const tabsToWakeUp = differentHostNamedTabs.some(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
             ? differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
-            : differentHostNamedTabs
+            : differentHostNamedTabs.sort((a, b) => b.wakeUpAt - a.wakeUpAt)
 
           const firstHalfRandomTabList = tabsToWakeUp
             .slice(0, Math.max(1, Math.round(tabsToWakeUp.length / 2)))
