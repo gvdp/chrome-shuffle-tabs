@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.5.0...v1.6.0) (2025-09-24)
+
+### Features
+
+- wake up some if they are all after the wake up date ([22b2c58](https://github.com/gvdp/chrome-shuffle-tabs/commit/22b2c58ecaf648da8596d70b7fbe725b0e31fc72))
+
+### Bug Fixes
+
+- dont get time of a number ([9a1ea0e](https://github.com/gvdp/chrome-shuffle-tabs/commit/9a1ea0e53397ccf75f3fab783a5681ab37914681))
+
 ## [1.5.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.4.3...v1.5.0) (2025-09-02)
 
 ### Features
