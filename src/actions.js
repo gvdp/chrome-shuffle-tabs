@@ -49,9 +49,9 @@ export async function moveTab() {
 export async function wakeUpATab(maxTabs = 15) {
   let queryOptions = { pinned: false }
 
-  await chrome.tabs.query(queryOptions).then((tabs) => {
-    console.log('open tabs', tabs.length, maxTabs, tabs)
-    if (tabs.length > maxTabs) {
+  await chrome.tabs.query(queryOptions).then((existingOpenTabs) => {
+    console.log('open tabs', existingOpenTabs.length, maxTabs, existingOpenTabs)
+    if (existingOpenTabs.length > maxTabs) {
       console.log('dont wake up any more tabs')
       return
     } else {
@@ -72,7 +72,7 @@ export async function wakeUpATab(maxTabs = 15) {
             })
             .filter(
               ({ url }) =>
-                !tabs.some(
+                !existingOpenTabs.some(
                   (openTab) =>
                     (openTab.url && new URL(openTab.url).hostname) === new URL(url).hostname ||
                     (openTab.pendingUrl && new URL(openTab.pendingUrl).hostname) === new URL(url).hostname,
@@ -82,7 +82,14 @@ export async function wakeUpATab(maxTabs = 15) {
           const tabsToWakeUp = differentHostNamedTabs.some(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
             ? differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
             : differentHostNamedTabs.sort((a, b) => b.wakeUpAt - a.wakeUpAt)
-
+          console.log(
+            'tasbs to wake up',
+            tabsToWakeUp,
+            new Date().getTime(),
+            differentHostNamedTabs,
+            differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime()),
+            differentHostNamedTabs.some(({ wakeUpAt }) => wakeUpAt <= new Date().getTime()),
+          )
           const firstHalfRandomTabList = tabsToWakeUp
             .slice(0, Math.max(1, Math.round(tabsToWakeUp.length / 2)))
             .sort(() => (Math.random() > Math.random() ? 1 : -1))
