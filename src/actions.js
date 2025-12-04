@@ -50,8 +50,9 @@ export async function wakeUpATab(maxTabs = 15) {
   let queryOptions = { pinned: false }
 
   await chrome.tabs.query(queryOptions).then((existingOpenTabs) => {
-    console.log('open tabs', existingOpenTabs.length, maxTabs, existingOpenTabs)
-    if (existingOpenTabs.length > maxTabs) {
+    const notGroupedOpenTabs = existingOpenTabs.filter((tab) => !tab.groupId)
+    console.log('open tabs', existingOpenTabs.length, maxTabs, existingOpenTabs, notGroupedOpenTabs)
+    if (notGroupedOpenTabs.length > maxTabs) {
       console.log('dont wake up any more tabs')
       return
     } else {
@@ -72,7 +73,7 @@ export async function wakeUpATab(maxTabs = 15) {
             })
             .filter(
               ({ url }) =>
-                !existingOpenTabs.some(
+                !notGroupedOpenTabs.some(
                   (openTab) =>
                     (openTab.url && new URL(openTab.url).hostname) === new URL(url).hostname ||
                     (openTab.pendingUrl && new URL(openTab.pendingUrl).hostname) === new URL(url).hostname,
@@ -91,6 +92,7 @@ export async function wakeUpATab(maxTabs = 15) {
             differentHostNamedTabs.some(({ wakeUpAt }) => wakeUpAt <= new Date().getTime()),
           )
           const firstHalfRandomTabList = tabsToWakeUp
+            .sort((a, b) => a.wakeUpAt - b.wakeUpAt)
             .slice(0, Math.max(1, Math.round(tabsToWakeUp.length / 2)))
             .sort(() => (Math.random() > Math.random() ? 1 : -1))
 
