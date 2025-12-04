@@ -50,8 +50,15 @@ export async function wakeUpATab(maxTabs = 15) {
   let queryOptions = { pinned: false }
 
   await chrome.tabs.query(queryOptions).then((existingOpenTabs) => {
-    const notGroupedOpenTabs = existingOpenTabs.filter((tab) => tab.groupId !== -1)
-    console.log('open tabs', existingOpenTabs.length, maxTabs, existingOpenTabs, notGroupedOpenTabs)
+    const notGroupedOpenTabs = existingOpenTabs.filter((tab) => tab.groupId === -1)
+    console.log(
+      'open tabs',
+      existingOpenTabs.length,
+      maxTabs,
+      existingOpenTabs,
+      'notGroupedOpenTabs',
+      notGroupedOpenTabs,
+    )
     if (notGroupedOpenTabs.length > maxTabs) {
       console.log('dont wake up any more tabs')
       return
