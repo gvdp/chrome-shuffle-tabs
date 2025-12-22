@@ -1,8 +1,9 @@
 export async function shuffle() {
   const queryOptions = { pinned: false, currentWindow: true }
   const tabs = await chrome.tabs.query(queryOptions)
-  for (const tab of tabs) {
-    const targetIndex = Math.floor(Math.random() * tabs.length)
+  const notGroupedTabs = tabs.filter((tab) => tab.groupId === -1)
+  for (const tab of notGroupedTabs) {
+    const targetIndex = Math.floor(Math.random() * notGroupedTabs.length)
     await chrome.tabs.move(tab.id, { index: targetIndex })
   }
 }
