@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.6.0...v1.7.0) (2025-12-22)
+
+### Features
+
+- only count non grouped tabs ([91480f5](https://github.com/gvdp/chrome-shuffle-tabs/commit/91480f59438d92d188c52576cc323d7328d00caa))
+- only count non grouped tabs ([2c3e555](https://github.com/gvdp/chrome-shuffle-tabs/commit/2c3e555fea801acc07cc6eaf0493b57dcdf81cc0))
+
+### Bug Fixes
+
+- only count non grouped tabs ([e99669c](https://github.com/gvdp/chrome-shuffle-tabs/commit/e99669c1a641c7e3f2e77736cbc0c17e85be4fa9))
+
 ## [1.6.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.5.0...v1.6.0) (2025-09-24)
 
 ### Features
