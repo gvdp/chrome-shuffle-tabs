@@ -38,7 +38,12 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
       if (wakeUpEnabled) {
         await wakeUpATab(maxTabs)
-        await wakeUpATab(maxTabs)
+        const wokeUp = await wakeUpATab(maxTabs)
+        if (!wokeUp) {
+          chrome.storage.local.set({ wakeUpEnabled: false }, function () {
+            console.log('disabled wake up as max tabs reached')
+          })
+        }
       }
     })
   })
