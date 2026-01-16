@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.7.0...v1.7.1) (2026-01-16)
+
+### Bug Fixes
+
+- filtering for wake up ([1cf6741](https://github.com/gvdp/chrome-shuffle-tabs/commit/1cf674105ccacbf624fd53e651f9cdd57266e45c))
+
 ## [1.7.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.6.0...v1.7.0) (2025-12-22)
 
 ### Features
