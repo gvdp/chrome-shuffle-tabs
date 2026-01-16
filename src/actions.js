@@ -89,14 +89,17 @@ export async function wakeUpATab(maxTabs = 15) {
             )
 
           const tabsToWakeUp =
-            notGroupedOpenTabs < 3
-              ? differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt >= new Date().getTime())
+            notGroupedOpenTabs.length > 3
+              ? differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
               : differentHostNamedTabs.sort((a, b) => b.wakeUpAt - a.wakeUpAt)
 
           console.log(
             'tasbs to wake up',
             tabsToWakeUp,
+            tabsToWakeUp.map((tab) => `${tab.wakeUpAt} | ${new Date().getTime()}`),
+            differentHostNamedTabs,
             new Date().getTime(),
+            notGroupedOpenTabs.length,
             differentHostNamedTabs,
             differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime()),
             differentHostNamedTabs.some(({ wakeUpAt }) => wakeUpAt <= new Date().getTime()),
