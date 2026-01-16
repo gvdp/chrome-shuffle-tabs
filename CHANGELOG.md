@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.2](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.7.1...v1.7.2) (2026-01-16)
+
+### Bug Fixes
+
+- only wake up tabs snoozed less than an hour when there are few open tabs ([1842e36](https://github.com/gvdp/chrome-shuffle-tabs/commit/1842e36dbbafa22e162b6a1a85ed7e257661cbb1))
+- only wake up tabs snoozed less than an hour when there are few open tabs ([91be432](https://github.com/gvdp/chrome-shuffle-tabs/commit/91be432ae881c55e8eb2e3df3689ef10c3429305))
+
 ### [1.7.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.7.0...v1.7.1) (2026-01-16)
 
 ### Bug Fixes
