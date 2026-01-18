@@ -23,6 +23,9 @@ export default defineConfig({
     outDir: isDev ? 'dev' : 'dist',
   },
   test: {
+    coverage: {
+      reporter: ['cobertura', 'html', 'text', 'text-summary'],
+    },
     globals: true, // Allows you to use 'describe' and 'it' without importing them
     environment: 'happy-dom', // Simulates the browser environment
   },
