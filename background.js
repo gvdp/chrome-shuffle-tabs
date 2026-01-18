@@ -1,12 +1,11 @@
 import browser from 'webextension-polyfill'
 import { shuffle, snoozeATAb, wakeUpATab } from './src/actions'
+import { get } from './src/storage'
 
-browser.runtime.onInstalled.addListener(() => {
+browser.runtime.onInstalled.addListener(async () => {
   console.log('Installedd!')
-  chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
-    await wakeUpATab(maxTabs)
-    await wakeUpATab(maxTabs)
-  })
+  const maxTabs = await get('maxTabs')
+  await wakeUpATab(maxTabs)
 })
 
 // todo: make this variable

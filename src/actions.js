@@ -50,6 +50,7 @@ export async function moveTab() {
 export async function wakeUpATab(maxTabs = 15) {
   let queryOptions = { pinned: false }
 
+  console.log('waking up a tab', maxTabs)
   return chrome.tabs.query(queryOptions).then((existingOpenTabs) => {
     const notGroupedOpenTabs = existingOpenTabs.filter((tab) => tab.groupId === -1)
     console.log(
@@ -226,22 +227,4 @@ export async function unsnoozeSome(number = 5) {
       }
     }
   })
-  // chrome.storage.local.get('tabs', async function (result) {
-  //   const tabList = result.tabs
-  //   const firstPart = tabList.slice(0, tabList.length)
-  //   firstPart.sort(() => (Math.random() > Math.random() ? 1 : -1))
-
-  //   const toUnsnooze = number > 0 ? firstPart.slice(0, number) : firstPart
-  //   console.log('unsnoozing tabs')
-  //   for (const tab of toUnsnooze) {
-  //     console.log('opening new tab ', tab.url)
-  //     chrome.tabs.create({ url: tab.url, active: false })
-  //   }
-  //   const remaining = tabList.filter(({ url }) => !toUnsnooze.map(({ url }) => url).includes(url))
-  //   console.log('remaining', remaining)
-
-  //   chrome.storage.local.set({ tabs: remaining }, function () {
-  //     console.log('tab storage updated with remaining tabs')
-  //   })
-  // })
 }
