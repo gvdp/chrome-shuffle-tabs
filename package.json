@@ -42,7 +42,8 @@
   "lint-staged": {
     "*": [
       "prettier --write"
-    ]
+    ],
+    "*.js,*.ts": "eslint --cache --fix"
   },
   "volta": {
     "node": "20.10.0",
