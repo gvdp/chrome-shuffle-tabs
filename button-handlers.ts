@@ -2,35 +2,52 @@ import { shuffle, merge, snooze, unsnooze, unsnoozeSome, moveTab } from './src/a
 
 console.log('adding event listeners in acionts.js')
 
+const setText = (id: string, text: string) => {
+  const el = document.getElementById(id)
+  if (el) {
+    el.textContent = text
+  } else {
+    throw new Error(`no element with id ${id}`)
+  }
+}
+const setValue = (id: string, text: string) => {
+  const el = document.getElementById(id)
+  if (el) {
+    ;(el as HTMLInputElement).value = text
+  } else {
+    throw new Error(`no element with id ${id}`)
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('shuffle').addEventListener('click', () => {
+  document.getElementById('shuffle')?.addEventListener('click', () => {
     shuffle()
   })
 
-  document.getElementById('merge').addEventListener('click', () => {
+  document.getElementById('merge')?.addEventListener('click', () => {
     merge()
   })
 
-  document.getElementById('move').addEventListener('click', () => {
+  document.getElementById('move')?.addEventListener('click', () => {
     moveTab()
   })
 
-  document.getElementById('snooze').addEventListener('click', () => {
+  document.getElementById('snooze')?.addEventListener('click', () => {
     console.log('snooze clicked')
     snooze()
   })
 
-  document.getElementById('unsnooze').addEventListener('click', () => {
+  document.getElementById('unsnooze')?.addEventListener('click', () => {
     unsnooze()
   })
 
-  document.getElementById('unsnoozeSome').addEventListener('click', () => {
+  document.getElementById('unsnoozeSome')?.addEventListener('click', () => {
     unsnoozeSome()
   })
-  document.getElementById('maxTabs').addEventListener('change', (event) => {
-    console.log('change snoozing tabs', event.target.value)
-    chrome.storage.local.set({ maxTabs: Number(event.target.value) }, function (cb) {
-      console.log('maxTabs set ', cb)
+  document.getElementById('maxTabs')?.addEventListener('change', (event) => {
+    console.log('change snoozing tabs', (event.target as HTMLInputElement).value)
+    chrome.storage.local.set({ maxTabs: Number((event.target as HTMLInputElement).value) }, function () {
+      console.log('maxTabs set ')
     })
   })
 
@@ -39,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (result) {
       const tabList = Object.values(result?.tabs || {})
       const count = tabList?.length || 0
-      document.getElementById('tabcount').textContent = `Snoozed tabs: ${count}`
+      setText('tabcount', `Snoozed tabs: ${count}`)
       chrome.action.setBadgeText({ text: count.toString() })
     }
   })
@@ -51,14 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
       color: wakeUpEnabled ? 'green' : 'lightsteelblue',
     })
 
-    document.getElementById('wakeUpEnabled').textContent = `Wakeup ${wakeUpEnabled ? 'Enabled' : 'Disabled'}`
+    setText('wakeUpEnabled', `Wakeup ${wakeUpEnabled ? 'Enabled' : 'Disabled'}`)
 
-    document.getElementById('wakeUpEnabled').addEventListener('click', () => {
+    document.getElementById('wakeUpEnabled')?.addEventListener('click', () => {
       chrome.storage.local.set({ wakeUpEnabled: !wakeUpEnabled }, function () {
         wakeUpEnabled = !wakeUpEnabled
         console.log('waking up enabled / disabled', wakeUpEnabled)
         // todo: also change event listener now
-        document.getElementById('wakeUpEnabled').textContent = `Wakeup ${wakeUpEnabled ? 'Enabled' : 'Disabled'}`
+        setText('wakeUpEnabled', `Wakeup ${wakeUpEnabled ? 'Enabled' : 'Disabled'}`)
         chrome.action.setBadgeBackgroundColor({
           color: wakeUpEnabled ? 'green' : 'lightsteelblue',
         })
@@ -77,10 +94,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
     console.log('maxTabs value get', maxTabs)
-    document.getElementById('maxTabs').value = maxTabs
+    setValue('maxTabs', maxTabs as string)
   })
 
-  chrome.storage.local.get('tabs', function (currentlySnoozed) {
+  chrome.storage.local.get('tabs', function (currentlySnoozed: { tabs: SnoozedTab[] }) {
     console.log(
       'currentlySnoozed',
       currentlySnoozed.tabs?.map((tab) => ({

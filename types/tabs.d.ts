@@ -1,0 +1,3 @@
+interface SnoozedTab {
+  wakeUpAt: number
+}
