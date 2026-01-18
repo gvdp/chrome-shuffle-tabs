@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import { crx, ManifestV3Export } from '@crxjs/vite-plugin'
 
 import manifest from './manifest.json'
@@ -21,5 +21,9 @@ export default defineConfig({
   ],
   build: {
     outDir: isDev ? 'dev' : 'dist',
+  },
+  test: {
+    globals: true, // Allows you to use 'describe' and 'it' without importing them
+    environment: 'happy-dom', // Simulates the browser environment
   },
 })

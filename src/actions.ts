@@ -47,8 +47,8 @@ export async function moveTab() {
   )
 }
 
-export async function wakeUpATab(maxTabs = 15) {
-  let queryOptions = { pinned: false }
+export async function wakeUpATab(maxTabs = 15): Promise<boolean> {
+  const queryOptions = { pinned: false }
 
   console.log('waking up a tab', maxTabs)
   return chrome.tabs.query(queryOptions).then((existingOpenTabs) => {
@@ -140,11 +140,11 @@ export async function wakeUpATab(maxTabs = 15) {
 
 export async function snoozeATAb() {
   console.log('snoozing a single tab in the background')
-  let queryOptions = { pinned: false, active: true, currentWindow: true }
+  const queryOptions = { pinned: false, active: true, currentWindow: true }
   const tabs = await chrome.tabs.query(queryOptions)
 
   // todo: same as in snoozeALl method in actions.js , can be extracted
-  chrome.storage.local.get('tabs', function (alreadySnoozed) {
+  chrome.storage.local.get('tabs', function (alreadySnoozed: { tabs: SnoozedTab[] }) {
     const MINUTE = 60 * 1000
     const ONE_HOUR = 60 * MINUTE
     const wakeUpAt = new Date().getTime() + ONE_HOUR
@@ -171,7 +171,7 @@ export async function snoozeATAb() {
 
 export async function snooze() {
   console.log('snoozing all tabs as action')
-  let tabQueryOptions = { pinned: false, currentWindow: true }
+  const tabQueryOptions = { pinned: false, currentWindow: true }
   // todo: the active can maybe also e given as queryOption
   const tabs = (await chrome.tabs.query(tabQueryOptions)).filter(({ active }) => !active)
   const FOUR_HOURS = 4 * 60 * 60 * 1000
@@ -185,14 +185,14 @@ export async function snooze() {
   }))
 
   console.log('snoozing ', tabs, urls)
-  chrome.storage.local.get('tabs', function (alreadySnoozed) {
+  chrome.storage.local.get('tabs', function (alreadySnoozed: { tabs: SnoozedTab[] }) {
     console.log('alreadySnoozed ', alreadySnoozed)
     chrome.storage.local.set(
       {
         tabs: [...(alreadySnoozed?.tabs?.length ? alreadySnoozed.tabs : []), ...urls],
       },
-      function (cb) {
-        console.log('Value is set to ', cb)
+      function () {
+        console.log('Value is set to ')
       },
     )
     chrome.tabs.remove(tabs.map(({ id }) => id))
@@ -218,7 +218,7 @@ export async function unsnoozeSome(number = 5) {
   chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
     let stillNeedsWakingUp = true
     for (let i = 0; i < number && stillNeedsWakingUp; i++) {
-      stillNeedsWakingUp = await wakeUpATab(maxTabs)
+      stillNeedsWakingUp = await wakeUpATab(Number(maxTabs))
       if (!stillNeedsWakingUp) {
         console.log('no more tabs to wake up')
         chrome.storage.local.set({ wakeUpEnabled: false }, function () {
