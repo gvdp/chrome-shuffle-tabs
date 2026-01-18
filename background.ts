@@ -1,18 +1,32 @@
 import browser from 'webextension-polyfill'
 import { shuffle, snoozeATAb, wakeUpATab } from './src/actions'
-import { get } from './src/storage'
-
-browser.runtime.onInstalled.addListener(async () => {
-  console.log('Installedd!')
-  const maxTabs = await get('maxTabs')
-  await wakeUpATab(maxTabs)
-})
+import { get, set } from './src/storage'
 
 // todo: make this variable
 const REFRESH_PERIOD = 1
-console.log('opening background.js to add alarms')
+
+browser.runtime.onInstalled.addListener(async () => {
+  console.log('install callback')
+  const maxTabs = await get('maxTabs')
+  await wakeUpATab(Number(maxTabs))
+})
 
 chrome.alarms.create('refresh', { periodInMinutes: REFRESH_PERIOD })
+
+chrome.alarms.onAlarm.addListener(async (alarm) => {
+  console.log('alarm triggered', alarm.name) // refresh
+
+  const wakeUpEnabled = await get('wakeUpEnabled')
+  const maxTabs = await get('maxTabs')
+
+  if (wakeUpEnabled) {
+    await wakeUpATab(Number(maxTabs))
+    const wokeUp = await wakeUpATab(Number(maxTabs))
+    if (!wokeUp) {
+      await set({ wakeUpEnabled: false })
+    }
+  }
+})
 
 chrome.commands.onCommand.addListener(function (command) {
   // Check if the command matches the key combination you want
@@ -28,24 +42,6 @@ chrome.commands.onCommand.addListener(function (command) {
     console.log('Snooze detected!')
     snoozeATAb()
   }
-})
-
-chrome.alarms.onAlarm.addListener((alarm) => {
-  console.log('alarm triggered', alarm.name) // refresh
-  chrome.storage.local.get('wakeUpEnabled', async function ({ wakeUpEnabled }) {
-    console.log('wakeUpEnabled', wakeUpEnabled)
-    chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
-      if (wakeUpEnabled) {
-        await wakeUpATab(maxTabs)
-        const wokeUp = await wakeUpATab(maxTabs)
-        if (!wokeUp) {
-          chrome.storage.local.set({ wakeUpEnabled: false }, function () {
-            console.log('disabled wake up as max tabs reached')
-          })
-        }
-      }
-    })
-  })
 })
 
 chrome.storage.local.get('tabs', async function (result) {
