@@ -32,7 +32,7 @@ jobs:
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
-      - run: pnpm test
+      - run: pnpm test:coverage
       - name: Code Coverage Summary Report
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
