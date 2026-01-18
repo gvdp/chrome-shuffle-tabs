@@ -5,7 +5,13 @@ import { merge, shuffle } from './actions.js'
 test.serial('shuffle moves every tab to a random index', async (t) => {
   global.chrome = {
     tabs: {
-      query: sinon.fake.returns(Promise.resolve([{ id: 1 }, { id: 2 }, { id: 3 }])),
+      query: sinon.fake.returns(
+        Promise.resolve([
+          { id: 1, groupId: -1 },
+          { id: 2, groupId: -1 },
+          { id: 3, groupId: -1 },
+        ]),
+      ),
       move: sinon.fake.returns(Promise.resolve()),
     },
   }
