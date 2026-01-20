@@ -21,7 +21,7 @@ jobs:
   create-issues:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run Issue Bot
         uses: derjuulsn/todo-issue@v1.1.5
         with:

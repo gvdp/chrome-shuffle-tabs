@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Download and cache deps'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: volta-cli/action@v4
       - uses: actions/cache@v5
         with:
@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     name: test
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: volta-cli/action@v4
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     name: lint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: volta-cli/action@v4
@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     name: build
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: volta-cli/action@v4
