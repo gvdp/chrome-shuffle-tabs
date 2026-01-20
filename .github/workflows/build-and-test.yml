@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: volta-cli/action@v4
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
@@ -28,7 +28,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: volta-cli/action@v4
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
@@ -56,7 +56,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: volta-cli/action@v4
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
@@ -71,7 +71,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: volta-cli/action@v4
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
