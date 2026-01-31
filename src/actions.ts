@@ -47,7 +47,7 @@ export async function moveTab() {
   )
 }
 
-export async function wakeUpATab(maxTabs = 15): Promise<boolean> {
+export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolean> {
   const queryOptions = { pinned: false }
 
   console.log('waking up a tab', maxTabs)
@@ -89,10 +89,9 @@ export async function wakeUpATab(maxTabs = 15): Promise<boolean> {
                 ),
             )
 
-          const tabsToWakeUp =
-            notGroupedOpenTabs.length > 3
-              ? differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
-              : differentHostNamedTabs.sort((a, b) => b.wakeUpAt - a.wakeUpAt)
+          const tabsToWakeUp = forceAll
+            ? differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
+            : differentHostNamedTabs.sort((a, b) => b.wakeUpAt - a.wakeUpAt)
 
           console.log(
             'tasbs to wake up',
@@ -218,7 +217,7 @@ export async function unsnoozeSome(number = 5) {
   chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
     let stillNeedsWakingUp = true
     for (let i = 0; i < number && stillNeedsWakingUp; i++) {
-      stillNeedsWakingUp = await wakeUpATab(Number(maxTabs))
+      stillNeedsWakingUp = await wakeUpATab(Number(maxTabs), true)
       if (!stillNeedsWakingUp) {
         console.log('no more tabs to wake up')
         chrome.storage.local.set({ wakeUpEnabled: false }, function () {
