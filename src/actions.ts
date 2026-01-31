@@ -90,8 +90,8 @@ export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolea
             )
 
           const tabsToWakeUp = forceAll
-            ? differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
-            : differentHostNamedTabs.sort((a, b) => b.wakeUpAt - a.wakeUpAt)
+            ? differentHostNamedTabs.sort((a, b) => b.wakeUpAt - a.wakeUpAt)
+            : differentHostNamedTabs.filter(({ wakeUpAt }) => wakeUpAt <= new Date().getTime())
 
           console.log(
             'tasbs to wake up',
