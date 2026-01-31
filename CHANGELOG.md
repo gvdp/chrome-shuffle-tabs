@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.7.3...v1.8.0) (2026-01-31)
+
+### Features
+
+- only ignore snoozetime limits when clicking the unsnooze button ([57d430f](https://github.com/gvdp/chrome-shuffle-tabs/commit/57d430f97ebc91af9db5a50fe65d8c62b90b4090))
+
 ### [1.7.3](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.7.2...v1.7.3) (2026-01-16)
 
 ### Bug Fixes
