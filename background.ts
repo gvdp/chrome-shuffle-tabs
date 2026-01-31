@@ -21,10 +21,10 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 
   if (wakeUpEnabled) {
     await wakeUpATab(Number(maxTabs))
-    const wokeUp = await wakeUpATab(Number(maxTabs))
-    if (!wokeUp) {
-      await set({ wakeUpEnabled: false })
-    }
+    await wakeUpATab(Number(maxTabs))
+    // if (!wokeUp) {
+    //   await set({ wakeUpEnabled: false })
+    // }
   }
 })
 
