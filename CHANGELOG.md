@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.8.0...v1.8.1) (2026-01-31)
+
+### Bug Fixes
+
+- switch ignoring snoozetime ([64ef79f](https://github.com/gvdp/chrome-shuffle-tabs/commit/64ef79f29dda870c67898f74303f3364212f46de))
+
 ## [1.8.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.7.3...v1.8.0) (2026-01-31)
 
 ### Features
