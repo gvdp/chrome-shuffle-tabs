@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill'
 import { shuffle, snoozeATAb, wakeUpATab } from './src/actions'
-import { get, set } from './src/storage'
+import { get } from './src/storage'
 
 // todo: make this variable
 const REFRESH_PERIOD = 1
