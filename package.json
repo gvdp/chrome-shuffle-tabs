@@ -46,7 +46,7 @@
     "*.js,*.ts": "eslint --cache --fix"
   },
   "volta": {
-    "node": "24.13.1",
+    "node": "24.14.0",
     "pnpm": "8.11.0"
   },
   "dependencies": {
