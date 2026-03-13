@@ -140,32 +140,76 @@ export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolea
 export async function snoozeATAb() {
   console.log('snoozing a single tab in the background')
   const queryOptions = { pinned: false, active: true, currentWindow: true }
-  const tabs = await chrome.tabs.query(queryOptions)
+  const currentlyActiveTabs = await chrome.tabs.query(queryOptions)
 
-  // todo: same as in snoozeALl method in actions.js , can be extracted
-  chrome.storage.local.get('tabs', function (alreadySnoozed: { tabs: SnoozedTab[] }) {
-    const MINUTE = 60 * 1000
-    const ONE_HOUR = 60 * MINUTE
-    const wakeUpAt = new Date().getTime() + ONE_HOUR
+  chrome.storage.local.get(
+    ['tabs', 'snoozedTabHistory'],
+    function (result: {
+      tabs?: SnoozedTab[]
+      snoozedTabHistory?: Record<string, { count: number; lastSnoozeDate: number }>
+    }) {
+      const currentlySnoozed = result.tabs || []
+      const snoozedTabHistory = result.snoozedTabHistory || {}
 
-    console.log('new wakeUpTime', wakeUpAt)
+      const MINUTE = 60 * 1000
+      const TEN_MINUTES = 10 * MINUTE
+      const TEN_DAYS = 10 * 24 * 60 * 60 * 1000
+      const now = new Date().getTime()
 
-    const urls = tabs.map(({ url }) => ({
-      url,
-      wakeUpAt,
-    }))
-    console.log('snoozing ', tabs, urls)
+      const snoozingUrls = currentlyActiveTabs.map(({ url }) => {
+        // Get the number of times this tab has been snoozed before
+        const snoozeCount = snoozedTabHistory[url]?.count || 0
 
-    console.log('adding tab to ', alreadySnoozed)
-    chrome.storage.local
-      .set({ tabs: [...alreadySnoozed.tabs, ...urls] })
-      .then((cb) => {
-        console.log('Value is set to ', cb)
+        let wakeUpAt
+        if (snoozeCount === 0) {
+          // First snooze: 10 minutes from now
+          wakeUpAt = new Date().getTime() + TEN_MINUTES
+        } else {
+          // Exponentially increase: 10 * 2^(snoozeCount)
+          wakeUpAt = new Date().getTime() + TEN_MINUTES * Math.pow(2, snoozeCount)
+        }
+
+        console.log(`Snoozing ${url} - snooze count: ${snoozeCount}, wake up at: ${wakeUpAt}`)
+
+        return {
+          url,
+          wakeUpAt,
+        }
       })
-      .catch((e) => console.error(e))
+      console.log('snoozing ', currentlyActiveTabs, snoozingUrls)
 
-    chrome.tabs.remove(tabs.map(({ id }) => id))
-  })
+      // Update the snooze history for each tab
+      const updatedHistory = { ...snoozedTabHistory }
+      currentlyActiveTabs.forEach(({ url }) => {
+        const existing = updatedHistory[url]
+        updatedHistory[url] = {
+          count: (existing?.count || 0) + 1,
+          lastSnoozeDate: now,
+        }
+      })
+
+      // Clean up snooze history entries older than 30 days
+      const cleanedHistory = Object.entries(updatedHistory).reduce(
+        (acc, [url, data]) => {
+          if (now - data.lastSnoozeDate < TEN_DAYS) {
+            acc[url] = data
+          }
+          return acc
+        },
+        {} as Record<string, { count: number; lastSnoozeDate: number }>,
+      )
+
+      console.log('adding tab to ', currentlySnoozed)
+      chrome.storage.local
+        .set({ tabs: [...currentlySnoozed, ...snoozingUrls], snoozedTabHistory: cleanedHistory })
+        .then((cb) => {
+          console.log('Value is set to ', cb)
+        })
+        .catch((e) => console.error(e))
+
+      chrome.tabs.remove(currentlyActiveTabs.map(({ id }) => id))
+    },
+  )
 }
 
 export async function snooze() {
