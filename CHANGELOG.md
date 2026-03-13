@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.8.1...v1.9.0) (2026-03-13)
+
+### Features
+
+- exponentially increase wake up time backoff when manually snoozing single tab ([46af960](https://github.com/gvdp/chrome-shuffle-tabs/commit/46af9600ec2df71e1ae8685eed5d7c7811ce4bbb))
+
 ### [1.8.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.8.0...v1.8.1) (2026-01-31)
 
 ### Bug Fixes
