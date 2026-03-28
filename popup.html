@@ -1,23 +1,198 @@
 <html>
   <head>
     <script type="module" src="./button-handlers.ts"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%);
+        color: #e0c3fc;
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+        text-shadow: 0 0 10px rgba(224, 195, 252, 0.5);
+        padding: 20px;
+        min-width: 400px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .section.full {
+        grid-template-columns: 1fr;
+      }
+
+      button {
+        padding: 10px 14px;
+        border: 2px solid #00d9ff;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #00d9ff 0%, #0099cc 100%);
+        color: #fff;
+        font-weight: bold;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow:
+          0 0 15px rgba(0, 217, 255, 0.5),
+          inset 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+
+      button:hover {
+        background: linear-gradient(135deg, #00ffff 0%, #00d9ff 100%);
+        box-shadow:
+          0 0 25px rgba(0, 217, 255, 0.8),
+          inset 0 0 15px rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+        box-shadow:
+          0 0 10px rgba(0, 217, 255, 0.5),
+          inset 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+
+      button#wakeUpEnabled {
+        padding: 12px 16px;
+        font-size: 13px;
+        background: linear-gradient(135deg, #ff1493 0%, #c71585 100%);
+        border-color: #ff1493;
+        box-shadow:
+          0 0 15px rgba(255, 20, 147, 0.5),
+          inset 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+
+      button#wakeUpEnabled:hover {
+        box-shadow:
+          0 0 25px rgba(255, 20, 147, 0.8),
+          inset 0 0 15px rgba(255, 255, 255, 0.3);
+        background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+      }
+
+      button#wakeUpEnabled.enabled {
+        background: linear-gradient(135deg, #00ff88 0%, #00cc66 100%);
+        border-color: #00ff88;
+        box-shadow:
+          0 0 15px rgba(0, 255, 136, 0.5),
+          inset 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+
+      button#wakeUpEnabled.enabled:hover {
+        background: linear-gradient(135deg, #33ffaa 0%, #00ff88 100%);
+        box-shadow:
+          0 0 25px rgba(0, 255, 136, 0.8),
+          inset 0 0 15px rgba(255, 255, 255, 0.3);
+      }
+
+      button#wakeUpEnabled.disabled {
+        background: linear-gradient(135deg, #ff1493 0%, #c71585 100%);
+        border-color: #ff1493;
+        box-shadow:
+          0 0 15px rgba(255, 20, 147, 0.5),
+          inset 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+
+      button#wakeUpEnabled.disabled:hover {
+        background: linear-gradient(135deg, #ff69b4 0%, #ff1493 100%);
+        box-shadow:
+          0 0 25px rgba(255, 20, 147, 0.8),
+          inset 0 0 15px rgba(255, 255, 255, 0.3);
+      }
+
+      .settings {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 16px;
+        border: 2px solid #00d9ff;
+        border-radius: 8px;
+        background: rgba(0, 217, 255, 0.05);
+        box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #00ffff;
+        text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+      }
+
+      input[type='number'] {
+        padding: 8px 12px;
+        border: 2px solid #00d9ff;
+        border-radius: 6px;
+        background: rgba(0, 217, 255, 0.1);
+        color: #00ffff;
+        font-weight: bold;
+        font-size: 13px;
+        width: 60px;
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+      }
+
+      input[type='number']:focus {
+        outline: none;
+        background: rgba(0, 217, 255, 0.2);
+        box-shadow: 0 0 15px rgba(0, 217, 255, 0.6);
+      }
+
+      #tabcount {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #ff5ec7;
+        text-shadow: 0 0 10px rgba(255, 94, 199, 0.5);
+      }
+    </style>
   </head>
   <body>
-    <div>
-      <button id="shuffle">Shuffle</button>
-      <button id="sortTabsByUrl">Sort by URL</button>
-      <button id="merge">Merge</button>
-      <button id="move">Move</button>
-      <button id="snooze">Snooze</button>
-      <button id="unsnooze">Unsnooze</button>
-      <button id="unsnoozeSome">Unsnooze Some</button>
-      <button id="wakeForSameUrl">Wake for Same URL</button>
-      <button id="wakeUpEnabled">Wakeup Enable/disable</button>
-      <label>
-        Max tabs:
-        <input id="maxTabs" type="number" />
-      </label>
-      <span id="tabcount">Snoozed tabs: </span>
+    <div class="container">
+      <div class="section">
+        <button id="shuffle">Shuffle</button>
+        <button id="sortTabsByUrl">Sort by URL</button>
+      </div>
+
+      <div class="section">
+        <button id="merge">Merge</button>
+        <button id="move">Move</button>
+      </div>
+
+      <div class="section">
+        <button id="snooze">Snooze</button>
+        <button id="unsnooze">Unsnooze</button>
+      </div>
+
+      <div class="section">
+        <button id="unsnoozeSome">Unsnooze Some</button>
+        <button id="wakeForSameUrl">Wake for Same URL</button>
+      </div>
+
+      <button id="wakeUpEnabled" class="full-width">Wakeup Enable/disable</button>
+
+      <div class="settings">
+        <label>
+          Max tabs:
+          <input id="maxTabs" type="number" />
+        </label>
+        <span id="tabcount">Snoozed tabs: </span>
+      </div>
     </div>
   </body>
 </html>

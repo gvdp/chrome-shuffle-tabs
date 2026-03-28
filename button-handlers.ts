@@ -79,14 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
       color: wakeUpEnabled ? 'green' : 'lightsteelblue',
     })
 
+    const wakeUpButton = document.getElementById('wakeUpEnabled')
     setText('wakeUpEnabled', `Wakeup ${wakeUpEnabled ? 'Enabled' : 'Disabled'}`)
+    wakeUpButton?.classList.toggle('enabled', wakeUpEnabled)
+    wakeUpButton?.classList.toggle('disabled', !wakeUpEnabled)
 
-    document.getElementById('wakeUpEnabled')?.addEventListener('click', () => {
+    wakeUpButton?.addEventListener('click', () => {
       chrome.storage.local.set({ wakeUpEnabled: !wakeUpEnabled }, function () {
         wakeUpEnabled = !wakeUpEnabled
         console.log('waking up enabled / disabled', wakeUpEnabled)
-        // todo: also change event listener now
         setText('wakeUpEnabled', `Wakeup ${wakeUpEnabled ? 'Enabled' : 'Disabled'}`)
+        wakeUpButton?.classList.toggle('enabled', wakeUpEnabled)
+        wakeUpButton?.classList.toggle('disabled', !wakeUpEnabled)
         chrome.action.setBadgeBackgroundColor({
           color: wakeUpEnabled ? 'green' : 'lightsteelblue',
         })
