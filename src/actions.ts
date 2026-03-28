@@ -8,6 +8,28 @@ export async function shuffle() {
   }
 }
 
+export async function sortTabsByUrl() {
+  const queryOptions = { currentWindow: true }
+  const tabs = await chrome.tabs.query(queryOptions)
+  const notGroupedTabs = tabs.filter((tab) => tab.groupId === -1)
+
+  // Sort tabs by URL
+  const sortedTabs = [...notGroupedTabs].sort((a, b) => {
+    const urlA = a.url || ''
+    const urlB = b.url || ''
+    return urlA.localeCompare(urlB)
+  })
+
+  // Move tabs to their sorted positions
+  for (let i = 0; i < sortedTabs.length; i++) {
+    if (sortedTabs[i].id !== undefined) {
+      await chrome.tabs.move(sortedTabs[i].id!, { index: i })
+    }
+  }
+
+  console.log('Tabs sorted by URL')
+}
+
 export async function merge() {
   const windows = await chrome.windows.getAll({ populate: true })
 

@@ -1,4 +1,4 @@
-import { shuffle, merge, snooze, unsnooze, unsnoozeSome, moveTab, wakeForSameUrl } from './src/actions'
+import { shuffle, merge, snooze, unsnooze, unsnoozeSome, moveTab, wakeForSameUrl, sortTabsByUrl } from './src/actions'
 
 console.log('adding event listeners in acionts.js')
 
@@ -22,6 +22,11 @@ const setValue = (id: string, text: string) => {
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('shuffle')?.addEventListener('click', () => {
     shuffle()
+  })
+
+  document.getElementById('sortTabsByUrl')?.addEventListener('click', () => {
+    console.log('sortTabsByUrl clicked')
+    sortTabsByUrl()
   })
 
   document.getElementById('merge')?.addEventListener('click', () => {
