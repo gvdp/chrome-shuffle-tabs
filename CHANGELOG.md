@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.10.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.9.0...v1.10.0) (2026-03-28)
+
+### Features
+
+- add button to sort tabs by URL ([86217cd](https://github.com/gvdp/chrome-shuffle-tabs/commit/86217cd1aa90ca6786e4f5858f5d356134785e5e))
+- add button to wake up tabs with same host ([c59131f](https://github.com/gvdp/chrome-shuffle-tabs/commit/c59131f9c792d062bf26a7cc4b588c200007cfcd))
+- style the buttons ([38bf365](https://github.com/gvdp/chrome-shuffle-tabs/commit/38bf365f592e8f4639820fc07830518b4504bec5))
+
 ## [1.9.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.8.1...v1.9.0) (2026-03-13)
 
 ### Features
