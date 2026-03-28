@@ -1,4 +1,4 @@
-import { shuffle, merge, snooze, unsnooze, unsnoozeSome, moveTab } from './src/actions'
+import { shuffle, merge, snooze, unsnooze, unsnoozeSome, moveTab, wakeForSameUrl } from './src/actions'
 
 console.log('adding event listeners in acionts.js')
 
@@ -44,6 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('unsnoozeSome')?.addEventListener('click', () => {
     unsnoozeSome()
   })
+
+  document.getElementById('wakeForSameUrl')?.addEventListener('click', () => {
+    console.log('wakeForSameUrl clicked')
+    wakeForSameUrl()
+  })
+
   document.getElementById('maxTabs')?.addEventListener('change', (event) => {
     console.log('change snoozing tabs', (event.target as HTMLInputElement).value)
     chrome.storage.local.set({ maxTabs: Number((event.target as HTMLInputElement).value) }, function () {

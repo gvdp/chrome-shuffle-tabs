@@ -222,7 +222,7 @@ export async function snooze() {
   const wakeUpAt = new Date().getTime() + Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS)
   console.log('new wakeUpTime', wakeUpAt)
 
-  const urls = tabs.map(({ url }) => ({
+  const urls: SnoozedTab[] = tabs.map(({ url }) => ({
     url,
     wakeUpAt: new Date().getTime() + Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS),
   }))
@@ -269,5 +269,54 @@ export async function unsnoozeSome(number = 5) {
         })
       }
     }
+  })
+}
+
+export async function wakeForSameUrl() {
+  const queryOptions = { pinned: false, active: true, currentWindow: true }
+  const currentTabs = await chrome.tabs.query(queryOptions)
+
+  if (!currentTabs.length || !currentTabs[0].url) {
+    console.warn('No active tab with URL found')
+    return
+  }
+
+  const currentUrl = new URL(currentTabs[0].url)
+  const currentHostname = currentUrl.hostname.replace(/^www\./, '')
+
+  chrome.storage.local.get('tabs', async function (result) {
+    const tabList = (result.tabs || []) as SnoozedTab[]
+
+    // Filter tabs with the same root domain
+    const sameDomainTabs = tabList.filter(({ url }) => {
+      try {
+        const snoozedHostname = new URL(url).hostname.replace(/^www\./, '')
+        return snoozedHostname === currentHostname
+      } catch (e) {
+        console.error('Invalid URL', url, e)
+        return false
+      }
+    })
+
+    // Open all tabs with the same domain
+    for (const tab of sameDomainTabs) {
+      console.log('opening tab with same domain', tab.url)
+      chrome.tabs.create({ url: tab.url, active: false })
+    }
+
+    // Remove the opened tabs from storage
+    const remainingTabs = tabList.filter(({ url }) => {
+      try {
+        const snoozedHostname = new URL(url).hostname.replace(/^www\./, '')
+        return snoozedHostname !== currentHostname
+      } catch {
+        return true
+      }
+    })
+
+    chrome.storage.local.set({ tabs: remainingTabs }, function () {
+      console.log('woke up tabs with same domain, remaining tabs:', remainingTabs.length)
+      chrome.action.setBadgeText({ text: remainingTabs.length.toString() })
+    })
   })
 }
