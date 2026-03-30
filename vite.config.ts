@@ -22,6 +22,7 @@ export default defineConfig({
   build: {
     outDir: isDev ? 'dev' : 'dist',
   },
+  publicDir: './icons',
   test: {
     coverage: {
       reporter: ['cobertura', 'html', 'text', 'text-summary'],

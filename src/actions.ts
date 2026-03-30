@@ -1,3 +1,51 @@
+// Helper function to format time remaining
+function formatTimeRemaining(wakeUpAtMs: number): string {
+  const now = new Date().getTime()
+  const diffMs = wakeUpAtMs - now
+  const diffMins = Math.round(diffMs / 60000)
+  const hours = Math.floor(diffMins / 60)
+  const mins = diffMins % 60
+
+  if (hours > 0) {
+    return `${hours}h ${mins}m`
+  }
+  return `${diffMins}m`
+}
+
+// Helper function to format the actual wake-up time
+function formatWakeUpTime(wakeUpAtMs: number): string {
+  const wakeUpDate = new Date(wakeUpAtMs)
+  const hours = String(wakeUpDate.getHours()).padStart(2, '0')
+  const mins = String(wakeUpDate.getMinutes()).padStart(2, '0')
+  return `${hours}:${mins}`
+}
+
+// Helper function to show snooze notification
+function showSnoozeNotification(tabTitle: string, wakeUpAtMs: number, count: number = 1) {
+  const timeRemaining = formatTimeRemaining(wakeUpAtMs)
+  const wakeUpTime = formatWakeUpTime(wakeUpAtMs)
+  const title = count === 1 ? '😴 Tab Snoozed' : `😴 ${count} Tabs Snoozed`
+  const message =
+    count === 1
+      ? `${tabTitle} will reappear at ${wakeUpTime} (${timeRemaining})`
+      : `Tabs will reappear at ${wakeUpTime} (${timeRemaining})`
+  console.log('creating notification', title, message)
+  chrome.notifications
+    .create({
+      type: 'basic',
+      iconUrl: './icon.png',
+      title,
+      message,
+      priority: 1,
+    })
+    .then((notificationId) => {
+      console.log('notification created with ID:', notificationId)
+    })
+    .catch((error) => {
+      console.error('Error creating notification:', error)
+    })
+}
+
 export async function shuffle() {
   const queryOptions = { pinned: false, currentWindow: true }
   const tabs = await chrome.tabs.query(queryOptions)
@@ -224,12 +272,22 @@ export async function snoozeATAb() {
       console.log('adding tab to ', currentlySnoozed)
       chrome.storage.local
         .set({ tabs: [...currentlySnoozed, ...snoozingUrls], snoozedTabHistory: cleanedHistory })
-        .then((cb) => {
-          console.log('Value is set to ', cb)
+        .then(() => {
+          console.log('storage value is set to ', {
+            tabs: [...currentlySnoozed, ...snoozingUrls],
+            snoozedTabHistory: cleanedHistory,
+          })
         })
         .catch((e) => console.error(e))
 
       chrome.tabs.remove(currentlyActiveTabs.map(({ id }) => id))
+
+      // Show notification for the first tab
+      if (snoozingUrls.length > 0) {
+        const firstTab = snoozingUrls[0]
+        const tabTitle = currentlyActiveTabs[0]?.title || new URL(firstTab.url).hostname
+        showSnoozeNotification(tabTitle, firstTab.wakeUpAt, snoozingUrls.length)
+      }
     },
   )
 }
@@ -256,10 +314,16 @@ export async function snooze() {
       {
         tabs: [...(alreadySnoozed?.tabs?.length ? alreadySnoozed.tabs : []), ...urls],
       },
-      function () {
-        console.log('Value is set to ')
-      },
+      function () {},
     )
+
+    // Show notification for the snoozed tabs
+    // if (urls.length > 0) {
+    //   const firstTab = urls[0]
+    //   const tabTitle = tabs[0]?.title || new URL(firstTab.url).hostname
+    //   showSnoozeNotification(tabTitle, firstTab.wakeUpAt, urls.length)
+    // }
+
     chrome.tabs.remove(tabs.map(({ id }) => id))
   })
 }
