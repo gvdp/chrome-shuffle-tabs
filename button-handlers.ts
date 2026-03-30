@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })
 
-  chrome.storage.local.get('wakeUpEnabled', async function ({ wakeUpEnabled }) {
+  chrome.storage.local.get('wakeUpEnabled', async function ({ wakeUpEnabled }: { wakeUpEnabled: boolean }) {
     console.log('wakeUpEnabled', wakeUpEnabled)
 
     chrome.action.setBadgeBackgroundColor({
