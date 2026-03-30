@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.11.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.10.0...v1.11.0) (2026-03-30)
+
+### Features
+
+- add snooze notification ([c23695b](https://github.com/gvdp/chrome-shuffle-tabs/commit/c23695bcedbe9b595caf7c611f5f1e345640efcf))
+
 ## [1.10.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.9.0...v1.10.0) (2026-03-28)
 
 ### Features
