@@ -24,7 +24,7 @@
   "license": "ISC",
   "devDependencies": {
     "@crxjs/vite-plugin": "2.4.0",
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "10.0.1",
     "@types/chrome": "0.1.38",
     "@types/node": "25.5.0",
     "@vitest/coverage-v8": "4.0.18",
