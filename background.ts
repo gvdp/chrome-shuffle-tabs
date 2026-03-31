@@ -31,14 +31,13 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
 chrome.commands.onCommand.addListener(function (command) {
   // Check if the command matches the key combination you want
   console.log('command', command)
-  // todo: rename command
-  if (command === 'myKeyCombination') {
-    console.log('Key combination detected!')
+  if (command === 'shuffleTabs') {
+    console.log('Shuffle detected!')
     shuffle()
   }
 
   // todo: these actions and/or key combinations should be documented
-  if (command === 'snoozeCombination') {
+  if (command === 'snoozeTab' || command === 'altSnooze') {
     console.log('Snooze detected!')
     snoozeATAb()
   }
