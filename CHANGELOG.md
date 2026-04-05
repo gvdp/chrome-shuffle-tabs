@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.12.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.11.0...v1.12.0) (2026-04-05)
+
+### Features
+
+- add alternate key for snoozing ([a2ae8de](https://github.com/gvdp/chrome-shuffle-tabs/commit/a2ae8dee17dec85e41533959c5501b7a127db66c))
+- count filtered tabs in badge ([51e6320](https://github.com/gvdp/chrome-shuffle-tabs/commit/51e63208de0004741a14a0337c20e7e33a48569e))
+
 ## [1.11.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.10.0...v1.11.0) (2026-03-30)
 
 ### Features
