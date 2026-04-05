@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.12.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.12.0...v1.12.1) (2026-04-05)
+
+### Bug Fixes
+
+- tabcount was wrong ([f472755](https://github.com/gvdp/chrome-shuffle-tabs/commit/f47275566909cfd3d15ae6024010b07562b3bca4))
+
 ## [1.12.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.11.0...v1.12.0) (2026-04-05)
 
 ### Features
