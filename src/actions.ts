@@ -1,3 +1,13 @@
+import { get } from './storage'
+
+// Helper function to update the badge count
+export async function setBadgeCount(): Promise<void> {
+  const result = await get<{ tabs: SnoozedTab[] }>('tabs')
+  const now = Date.now()
+  const count = Object.values(result?.tabs || {}).filter(({ wakeUpAt }: SnoozedTab) => wakeUpAt <= now).length
+  chrome.action.setBadgeText({ text: count.toString() })
+}
+
 // Helper function to format time remaining
 function formatTimeRemaining(wakeUpAtMs: number): string {
   const now = new Date().getTime()
@@ -192,9 +202,7 @@ export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolea
                   chrome.storage.local.set({ tabs: newTabList }, function () {
                     console.log('tab storage updated to ', newTabList)
 
-                    chrome.action.setBadgeText({
-                      text: newTabList.length.toString(),
-                    })
+                    setBadgeCount()
                     resolve(true)
                   })
                 })
@@ -402,7 +410,7 @@ export async function wakeForSameUrl() {
 
     chrome.storage.local.set({ tabs: remainingTabs }, function () {
       console.log('woke up tabs with same domain, remaining tabs:', remainingTabs.length)
-      chrome.action.setBadgeText({ text: remainingTabs.length.toString() })
+      setBadgeCount()
     })
   })
 }

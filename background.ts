@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill'
-import { shuffle, snoozeATAb, wakeUpATab } from './src/actions'
+import { shuffle, snoozeATAb, wakeUpATab, setBadgeCount } from './src/actions'
 import { get } from './src/storage'
 
 // todo: make this variable
@@ -26,6 +26,7 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
     //   await set({ wakeUpEnabled: false })
     // }
   }
+  setBadgeCount()
 })
 
 chrome.commands.onCommand.addListener(function (command) {
@@ -43,15 +44,7 @@ chrome.commands.onCommand.addListener(function (command) {
   }
 })
 
-chrome.storage.local.get('tabs', async function (result) {
-  console.log('got tabs', result)
-  if (result) {
-    const tabList = Object.values(result?.tabs || {})
-    const count = tabList?.length || 0
-    // document.getElementById("tabcount").textContent = `Snoozed tabs: ${count}`;
-    chrome.action.setBadgeText({ text: count.toString() })
-  }
-})
+setBadgeCount()
 
 chrome.storage.local.get('wakeUpEnabled', async function ({ wakeUpEnabled }) {
   console.log('wakeUpEnabled', wakeUpEnabled)

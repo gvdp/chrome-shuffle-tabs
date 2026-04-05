@@ -1,4 +1,15 @@
-import { shuffle, merge, snooze, unsnooze, unsnoozeSome, moveTab, wakeForSameUrl, sortTabsByUrl } from './src/actions'
+import {
+  shuffle,
+  merge,
+  snooze,
+  unsnooze,
+  unsnoozeSome,
+  moveTab,
+  wakeForSameUrl,
+  sortTabsByUrl,
+  setBadgeCount,
+} from './src/actions'
+import { get } from './src/storage'
 
 console.log('adding event listeners in acionts.js')
 
@@ -19,7 +30,7 @@ const setValue = (id: string, text: string) => {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('shuffle')?.addEventListener('click', () => {
     shuffle()
   })
@@ -62,15 +73,12 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 
-  chrome.storage.local.get('tabs', async function (result) {
-    console.log('got tabs', result)
-    if (result) {
-      const tabList = Object.values(result?.tabs || {})
-      const count = tabList?.length || 0
-      setText('tabcount', `Snoozed tabs: ${count}`)
-      chrome.action.setBadgeText({ text: count.toString() })
-    }
-  })
+  const { tabs } = await get<{ tabs: SnoozedTab[] }>('tabs')
+  const count = tabs.length
+  const readyCount = tabs.filter(({ wakeUpAt }) => wakeUpAt <= Date.now()).length
+  setText('tabcount', `Snoozed tabs: ${count}\nReady to wake up: ${readyCount}`)
+
+  setBadgeCount()
 
   chrome.storage.local.get('wakeUpEnabled', async function ({ wakeUpEnabled }: { wakeUpEnabled: boolean }) {
     console.log('wakeUpEnabled', wakeUpEnabled)
