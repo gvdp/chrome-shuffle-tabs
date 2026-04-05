@@ -2,9 +2,9 @@ import { get } from './storage'
 
 // Helper function to update the badge count
 export async function setBadgeCount(): Promise<void> {
-  const result = await get<{ tabs: SnoozedTab[] }>('tabs')
+  const result = await get<SnoozedTab[]>('tabs')
   const now = Date.now()
-  const count = Object.values(result?.tabs || {}).filter(({ wakeUpAt }: SnoozedTab) => wakeUpAt <= now).length
+  const count = Object.values(result || {}).filter(({ wakeUpAt }: SnoozedTab) => wakeUpAt <= now).length
   chrome.action.setBadgeText({ text: count.toString() })
 }
 

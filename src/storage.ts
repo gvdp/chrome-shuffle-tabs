@@ -1,6 +1,7 @@
 export const get = async <ReturnValue>(key: string): Promise<ReturnValue> => {
   return new Promise((resolve) => {
     chrome.storage.local.get(key, async function (result) {
+      console.log('get key from', key, 'got', result)
       resolve(result[key] as ReturnValue)
     })
   })

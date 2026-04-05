@@ -73,7 +73,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     })
   })
 
-  const { tabs } = await get<{ tabs: SnoozedTab[] }>('tabs')
+  const tabs = await get<SnoozedTab[]>('tabs')
+  console.log('got tabs', tabs)
   const count = tabs.length
   const readyCount = tabs.filter(({ wakeUpAt }) => wakeUpAt <= Date.now()).length
   setText('tabcount', `Snoozed tabs: ${count}\nReady to wake up: ${readyCount}`)
