@@ -38,7 +38,7 @@ function showSnoozeNotification(tabTitle: string, wakeUpAtMs: number, count: num
   const title = count === 1 ? '😴 Tab Snoozed' : `😴 ${count} Tabs Snoozed`
   const message =
     count === 1
-      ? `${tabTitle} will reappear at ${wakeUpTime} (${timeRemaining})`
+      ? `${tabTitle.slice(0, 30)} will reappear at ${wakeUpTime} (${timeRemaining})`
       : `Tabs will reappear at ${wakeUpTime} (${timeRemaining})`
   console.log('creating notification', title, message)
   chrome.notifications
