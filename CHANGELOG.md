@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.12.2](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.12.1...v1.12.2) (2026-04-06)
+
+### Bug Fixes
+
+- start higher when snoozing ([8574c3d](https://github.com/gvdp/chrome-shuffle-tabs/commit/8574c3dc6555ff933b5230a9dd533b31a67baf96))
+- trim tab title ([3364bee](https://github.com/gvdp/chrome-shuffle-tabs/commit/3364bee608e56cc9ca488a627457a901c8e6e64c))
+
 ### [1.12.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.12.0...v1.12.1) (2026-04-05)
 
 ### Bug Fixes
