@@ -255,6 +255,7 @@ export async function snoozeATAb() {
           wakeUpAt = new Date().getTime() + START_INTERVAL
         } else {
           // Exponentially increase: 10 * 2^(snoozeCount)
+          //  todo: maybe take into account when it was last snoozed and increase that instead of fixed intervals?
           wakeUpAt = new Date().getTime() + START_INTERVAL * Math.pow(2, snoozeCount)
         }
 
