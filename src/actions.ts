@@ -1,3 +1,4 @@
+import { REFRESH_PERIOD, TABS_TO_WAKE_PER_PERIOD } from './../background'
 import { get } from './storage'
 
 // Helper function to update the badge count
@@ -230,9 +231,19 @@ export async function snoozeATAb() {
       const snoozedTabHistory = result.snoozedTabHistory || {}
 
       const MINUTE = 60 * 1000
-      const TEN_MINUTES = 10 * MINUTE
+      const START_INTERVAL = 15 * MINUTE
       const TEN_DAYS = 10 * 24 * 60 * 60 * 1000
       const now = new Date().getTime()
+
+      const readyToWakeUpTabs = currentlySnoozed.filter(({ wakeUpAt }) => wakeUpAt <= now)
+      const lastTabWakesAt =
+        new Date().getTime() + (readyToWakeUpTabs.length / TABS_TO_WAKE_PER_PERIOD) * REFRESH_PERIOD * MINUTE
+      console.log(
+        'readyToWakeUpTabs',
+        readyToWakeUpTabs.length,
+        (readyToWakeUpTabs.length / TABS_TO_WAKE_PER_PERIOD) * REFRESH_PERIOD,
+        lastTabWakesAt,
+      )
 
       const snoozingUrls = currentlyActiveTabs.map(({ url }) => {
         // Get the number of times this tab has been snoozed before
@@ -241,11 +252,13 @@ export async function snoozeATAb() {
         let wakeUpAt
         if (snoozeCount === 0) {
           // First snooze: 10 minutes from now
-          wakeUpAt = new Date().getTime() + TEN_MINUTES
+          wakeUpAt = new Date().getTime() + START_INTERVAL
         } else {
           // Exponentially increase: 10 * 2^(snoozeCount)
-          wakeUpAt = new Date().getTime() + TEN_MINUTES * Math.pow(2, snoozeCount)
+          wakeUpAt = new Date().getTime() + START_INTERVAL * Math.pow(2, snoozeCount)
         }
+
+        wakeUpAt = Math.max(wakeUpAt, lastTabWakesAt)
 
         console.log(`Snoozing ${url} - snooze count: ${snoozeCount}, wake up at: ${wakeUpAt}`)
 
