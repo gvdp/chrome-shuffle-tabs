@@ -1,4 +1,4 @@
-import { REFRESH_PERIOD, TABS_TO_WAKE_PER_PERIOD } from './../background'
+import { REFRESH_PERIOD, TABS_TO_WAKE_PER_PERIOD } from './constants'
 import { get } from './storage'
 
 // Helper function to update the badge count

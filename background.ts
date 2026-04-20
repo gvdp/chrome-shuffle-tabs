@@ -1,10 +1,9 @@
 import browser from 'webextension-polyfill'
 import { shuffle, snoozeATAb, wakeUpATab, setBadgeCount } from './src/actions'
 import { get } from './src/storage'
+import { REFRESH_PERIOD, TABS_TO_WAKE_PER_PERIOD } from './src/constants'
 
-// todo: make this variable
-export const REFRESH_PERIOD = 1
-export const TABS_TO_WAKE_PER_PERIOD = 2
+export { REFRESH_PERIOD, TABS_TO_WAKE_PER_PERIOD }
 
 browser.runtime.onInstalled.addListener(async () => {
   console.log('install callback')

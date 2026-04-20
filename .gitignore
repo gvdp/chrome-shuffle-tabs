@@ -3,3 +3,5 @@ dist
 dev
 coverage
 .eslintcache
+.claude/settings.local.json
+
