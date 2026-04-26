@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.13.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.12.2...v1.13.0) (2026-04-26)
+
+### Features
+
+- do wake up tabs with sma ehostname as active tab ([ceea733](https://github.com/gvdp/chrome-shuffle-tabs/commit/ceea733da1b68d0707999c29e64020e91563974e))
+
 ### [1.12.2](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.12.1...v1.12.2) (2026-04-06)
 
 ### Bug Fixes
