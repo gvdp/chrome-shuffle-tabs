@@ -133,7 +133,8 @@ export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolea
 
   console.log('waking up a tab', maxTabs)
   return chrome.tabs.query(queryOptions).then((existingOpenTabs) => {
-    const notGroupedOpenTabs = existingOpenTabs.filter((tab) => tab.groupId === -1)
+    const activeTab = existingOpenTabs.find((tab) => tab.active)
+    const notGroupedOpenTabs = existingOpenTabs.filter((tab) => tab.groupId === -1).filter((tab) => !tab.active)
     console.log(
       'open tabs',
       existingOpenTabs.length,
