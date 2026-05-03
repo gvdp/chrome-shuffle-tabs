@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.14.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.13.0...v1.14.0) (2026-05-03)
+
+### Features
+
+- new button for unsnoozing ([9aa1fea](https://github.com/gvdp/chrome-shuffle-tabs/commit/9aa1fea7c42d592cc3a5e937c598d79462df4d3b))
+
 ## [1.13.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.12.2...v1.13.0) (2026-04-26)
 
 ### Features
