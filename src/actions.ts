@@ -381,6 +381,25 @@ export async function unsnoozeSome(number = 5) {
   })
 }
 
+export async function unsnoozeSomeUnrestricted(number = 3) {
+  const result = await new Promise<{ tabs: SnoozedTab[] }>((resolve) => {
+    chrome.storage.local.get('tabs', resolve as (items: { [key: string]: unknown }) => void)
+  })
+
+  const tabList = (result.tabs || []) as SnoozedTab[]
+  const sorted = [...tabList].sort((a, b) => a.wakeUpAt - b.wakeUpAt)
+  const toWake = sorted.slice(0, number)
+  const remaining = sorted.slice(number)
+
+  for (const tab of toWake) {
+    chrome.tabs.create({ url: tab.url, active: false })
+  }
+
+  chrome.storage.local.set({ tabs: remaining }, () => {
+    setBadgeCount()
+  })
+}
+
 export async function wakeForSameUrl() {
   const queryOptions = { pinned: false, active: true, currentWindow: true }
   const currentTabs = await chrome.tabs.query(queryOptions)

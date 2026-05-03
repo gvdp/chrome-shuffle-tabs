@@ -4,6 +4,7 @@ import {
   snooze,
   unsnooze,
   unsnoozeSome,
+  unsnoozeSomeUnrestricted,
   moveTab,
   wakeForSameUrl,
   sortTabsByUrl,
@@ -59,6 +60,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('unsnoozeSome')?.addEventListener('click', () => {
     unsnoozeSome()
+  })
+
+  document.getElementById('unsnoozeSomeUnrestricted')?.addEventListener('click', () => {
+    unsnoozeSomeUnrestricted()
   })
 
   document.getElementById('wakeForSameUrl')?.addEventListener('click', () => {
