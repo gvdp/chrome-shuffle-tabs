@@ -61,9 +61,16 @@ export async function shuffle() {
   const queryOptions = { pinned: false, currentWindow: true }
   const tabs = await chrome.tabs.query(queryOptions)
   const notGroupedTabs = tabs.filter((tab) => tab.groupId === -1)
-  for (const tab of notGroupedTabs) {
-    const targetIndex = Math.floor(Math.random() * notGroupedTabs.length)
-    await chrome.tabs.move(tab.id, { index: targetIndex })
+
+  // Absolute indices currently occupied by non-grouped tabs, ascending
+  const slots = notGroupedTabs.map((tab) => tab.index).sort((a, b) => a - b)
+
+  // Shuffle which tab goes where
+  const shuffled = [...notGroupedTabs].sort(() => Math.random() - 0.5)
+
+  // Assign left-to-right so earlier placements don't shift later target indices
+  for (let i = 0; i < shuffled.length; i++) {
+    await chrome.tabs.move(shuffled[i].id!, { index: slots[i] })
   }
 }
 
