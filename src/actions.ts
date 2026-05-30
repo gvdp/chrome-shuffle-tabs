@@ -200,7 +200,7 @@ export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolea
 
           console.log('loaded tabs', result, firstHalfRandomTabList, tabList.length)
 
-          if (tabList.length) {
+          if (firstHalfRandomTabList.length) {
             const tabToOpen = firstHalfRandomTabList[0]
             console.log('opening new tab ', tabToOpen.url)
             chrome.windows.getAll((windows) => {
@@ -377,7 +377,7 @@ export async function unsnoozeSome(number = 5) {
   chrome.storage.local.get('maxTabs', async function ({ maxTabs }) {
     let stillNeedsWakingUp = true
     for (let i = 0; i < number && stillNeedsWakingUp; i++) {
-      stillNeedsWakingUp = await wakeUpATab(Number(maxTabs), true)
+      stillNeedsWakingUp = await wakeUpATab(Number(maxTabs))
       if (!stillNeedsWakingUp) {
         console.log('no more tabs to wake up')
         chrome.storage.local.set({ wakeUpEnabled: false }, function () {
