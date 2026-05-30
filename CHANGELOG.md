@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.14.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.14.0...v1.14.1) (2026-05-30)
+
+### Bug Fixes
+
+- dont shuffle tabs into groups ([087cab3](https://github.com/gvdp/chrome-shuffle-tabs/commit/087cab34dcbbbc4582843ae7b5183859a7fa2af1))
+- dont wake up all tabs when doing unsnooze some ([e197519](https://github.com/gvdp/chrome-shuffle-tabs/commit/e197519a8d41c72bd5d8cbb8ce4f8a1a13283ca3))
+
 ## [1.14.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.13.0...v1.14.0) (2026-05-03)
 
 ### Features
