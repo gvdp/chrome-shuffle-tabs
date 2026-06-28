@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Download and cache deps'
     steps:
-      - uses: actions/checkout@v6
-      - uses: volta-cli/action@v4
-      - uses: actions/cache@v5
+      - uses: actions/checkout@v6.0.3
+      - uses: volta-cli/action@v4.2.1
+      - uses: actions/cache@v5.1.0
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
@@ -24,11 +24,11 @@ jobs:
     runs-on: ubuntu-latest
     name: test
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: volta-cli/action@v4
-      - uses: actions/cache@v5
+      - uses: volta-cli/action@v4.2.1
+      - uses: actions/cache@v5.1.0
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
@@ -41,7 +41,7 @@ jobs:
           output: both
           format: markdown
       - name: Add Coverage PR Comment
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@v3.0.4
         if: github.event_name == 'pull_request'
         with:
           recreate: true
@@ -52,11 +52,11 @@ jobs:
     runs-on: ubuntu-latest
     name: lint
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: volta-cli/action@v4
-      - uses: actions/cache@v5
+      - uses: volta-cli/action@v4.2.1
+      - uses: actions/cache@v5.1.0
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
@@ -67,11 +67,11 @@ jobs:
     runs-on: ubuntu-latest
     name: build
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - uses: volta-cli/action@v4
-      - uses: actions/cache@v5
+      - uses: volta-cli/action@v4.2.1
+      - uses: actions/cache@v5.1.0
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('pnpm-lock.yaml') }}
