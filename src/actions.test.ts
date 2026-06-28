@@ -9,9 +9,9 @@ test('shuffle moves every tab to a random index', async () => {
     tabs: {
       query: sinon.fake.returns(
         Promise.resolve([
-          { id: 1, groupId: -1 },
-          { id: 2, groupId: -1 },
-          { id: 3, groupId: -1 },
+          { id: 1, groupId: -1, index: 0 },
+          { id: 2, groupId: -1, index: 1 },
+          { id: 3, groupId: -1, index: 2 },
         ]),
       ),
       move: sinon.fake.returns(Promise.resolve()),
