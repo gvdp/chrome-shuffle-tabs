@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.0
       - name: Run Issue Bot
-        uses: derjuulsn/todo-issue@v1.1.6
+        uses: derjuulsn/todo-issue@v2.0.0
         with:
           caseSensitive: false
           autoAssign: false
