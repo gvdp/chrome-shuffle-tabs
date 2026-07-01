@@ -20,8 +20,8 @@ devDependencies:
     specifier: 10.0.1
     version: 10.0.1(eslint@10.1.0)
   '@types/chrome':
-    specifier: 0.1.38
-    version: 0.1.38
+    specifier: 0.2.0
+    version: 0.2.0
   '@types/node':
     specifier: 25.9.4
     version: 25.9.4
@@ -423,8 +423,8 @@ packages:
       assertion-error: 2.0.1
     dev: true
 
-  /@types/chrome@0.1.38:
-    resolution: {integrity: sha512-5aK4m9wZqoWAoB98aElESLm/5pXpqJnFWMNoiCs/XdPsXR6wNdVkJFSdQ9Wr4PnTuUrxD0SuNuDHh3EG5QeBzA==}
+  /@types/chrome@0.2.0:
+    resolution: {integrity: sha512-K/i7EKEVSpmyXXjE0ev5oASWBYMY6yM8LFSutG2PkM1DmxJUggZsoaTc0W1RsVwDDKrsZEjpHFAbqqxlRxGsSg==}
     dependencies:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
