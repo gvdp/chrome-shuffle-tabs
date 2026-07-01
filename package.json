@@ -26,7 +26,7 @@
     "@crxjs/vite-plugin": "2.7.0",
     "@eslint/js": "10.0.1",
     "@types/chrome": "0.1.38",
-    "@types/node": "25.5.0",
+    "@types/node": "25.9.4",
     "@vitest/coverage-v8": "4.1.9",
     "concurrently": "9.2.3",
     "eslint": "10.1.0",
