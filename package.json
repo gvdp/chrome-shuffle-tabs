@@ -28,7 +28,7 @@
     "@types/chrome": "0.2.2",
     "@types/node": "25.9.4",
     "@vitest/coverage-v8": "4.1.9",
-    "concurrently": "9.2.3",
+    "concurrently": "10.0.3",
     "eslint": "10.6.0",
     "globals": "17.7.0",
     "happy-dom": "20.10.6",
