@@ -33,7 +33,7 @@
     "globals": "17.7.0",
     "happy-dom": "20.10.6",
     "husky": "9.1.7",
-    "lint-staged": "16.2.7",
+    "lint-staged": "17.0.8",
     "prettier": "3.9.5",
     "sinon": "21.1.2",
     "typescript": "6.0.3",
