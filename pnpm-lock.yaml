@@ -29,8 +29,8 @@ devDependencies:
     specifier: 4.1.10
     version: 4.1.10(vitest@4.1.10)
   concurrently:
-    specifier: 10.0.3
-    version: 10.0.3
+    specifier: 10.0.4
+    version: 10.0.4
   eslint:
     specifier: 10.7.0
     version: 10.7.0
@@ -38,8 +38,8 @@ devDependencies:
     specifier: 17.7.0
     version: 17.7.0
   happy-dom:
-    specifier: 20.11.0
-    version: 20.11.0
+    specifier: 20.11.1
+    version: 20.11.1
   husky:
     specifier: 9.1.7
     version: 9.1.7
@@ -47,8 +47,8 @@ devDependencies:
     specifier: 17.1.0
     version: 17.1.0
   prettier:
-    specifier: 3.9.5
-    version: 3.9.5
+    specifier: 3.9.6
+    version: 3.9.6
   sinon:
     specifier: 22.0.0
     version: 22.0.0
@@ -60,7 +60,7 @@ devDependencies:
     version: 8.64.0(eslint@10.7.0)(typescript@6.0.3)
   vitest:
     specifier: 4.1.10
-    version: 4.1.10(@types/node@25.9.5)(@vitest/coverage-v8@4.1.10)(happy-dom@20.11.0)(vite@8.1.5)
+    version: 4.1.10(@types/node@25.9.5)(@vitest/coverage-v8@4.1.10)(happy-dom@20.11.1)(vite@8.1.5)
 
 packages:
 
@@ -634,7 +634,7 @@ packages:
       obug: 2.1.1
       std-env: 4.0.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@25.9.5)(@vitest/coverage-v8@4.1.10)(happy-dom@20.11.0)(vite@8.1.5)
+      vitest: 4.1.10(@types/node@25.9.5)(@vitest/coverage-v8@4.1.10)(happy-dom@20.11.1)(vite@8.1.5)
     dev: true
 
   /@vitest/expect@4.1.10:
@@ -798,14 +798,14 @@ packages:
       wrap-ansi: 9.0.2
     dev: true
 
-  /concurrently@10.0.3:
-    resolution: {integrity: sha512-hc3LH4UaKWd/bbyDK/IGVa4RB6PtQ3CUYwtrkzqHn+wIG3Hr5fhpRlk0L/gCa8ZE1L/Ufj50Zho69cI5w8SQBA==}
+  /concurrently@10.0.4:
+    resolution: {integrity: sha512-trZql+7l/0+WRAsAnEdctr4+iiOS6ZrViI6H8QWcCF9MFS/LT0dKpe8vluB1to6it+OxSI4VospFTIFMW8DJRw==}
     engines: {node: '>=22'}
     hasBin: true
     dependencies:
       chalk: 5.6.2
       rxjs: 7.8.2
-      shell-quote: 1.8.4
+      shell-quote: 1.9.0
       supports-color: 10.2.2
       tree-kill: 1.2.2
       yargs: 18.0.0
@@ -1123,8 +1123,8 @@ packages:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
     dev: true
 
-  /happy-dom@20.11.0:
-    resolution: {integrity: sha512-XogN4asPd1a56di9prVG6bZxteNcXsZxxKmAvcEfc5Px5Ca2hMyMgk8wvqK2K1V8zXg40j9VANXsDaJYh9DeNA==}
+  /happy-dom@20.11.1:
+    resolution: {integrity: sha512-XSt8tMzbW9ymE7687xztkO1ckR7qJNQ3LywY9vlYGhGi3zXrGBHuUo2Cl1ztZaICW+1eAGdkLbj6iwVqDT33kg==}
     engines: {node: '>=20.0.0'}
     dependencies:
       '@types/node': 25.9.5
@@ -1504,8 +1504,8 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier@3.9.5:
-    resolution: {integrity: sha512-/FVl766LpUfB5vXgCYOYa0MeV/441Ia99AeICQIQFTY/Nw0roZwULcXpku5i1/m5kt/baz+s4Zogspd839HSMg==}
+  /prettier@3.9.6:
+    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
     engines: {node: '>=14'}
     hasBin: true
     dev: true
@@ -1577,8 +1577,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /shell-quote@1.8.4:
-    resolution: {integrity: sha512-VsC6n6vz1ihYYyZZwX7YZSF5l5x36ca17OC+a69h94YqB7X6XLwf+5MOgynYir2SLFUbl8gIYvBo8K8RoNQ6bQ==}
+  /shell-quote@1.9.0:
+    resolution: {integrity: sha512-Iov+JwFv/2HcTpcwNMKd8+IWNb8tboQJNQTkAY/LLVK7gGH9jy+LGkVqPxfekHl+yMmiqXszdGWXgkfml7hjqA==}
     engines: {node: '>= 0.4'}
     dev: true
 
@@ -1789,7 +1789,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitest@4.1.10(@types/node@25.9.5)(@vitest/coverage-v8@4.1.10)(happy-dom@20.11.0)(vite@8.1.5):
+  /vitest@4.1.10(@types/node@25.9.5)(@vitest/coverage-v8@4.1.10)(happy-dom@20.11.1)(vite@8.1.5):
     resolution: {integrity: sha512-R9jUTe5S4Qb0HCd4TNqpC7oGcrMssMRGXLW80ubjWsW9VH5GF8y1Y0SFLY9AbqSk6nt0PnOx4H4WNJYZ13GUPw==}
     engines: {node: ^20.0.0 || ^22.0.0 || >=24.0.0}
     hasBin: true
@@ -1841,7 +1841,7 @@ packages:
       '@vitest/utils': 4.1.10
       es-module-lexer: 2.0.0
       expect-type: 1.3.0
-      happy-dom: 20.11.0
+      happy-dom: 20.11.1
       magic-string: 0.30.21
       obug: 2.1.1
       pathe: 2.0.3
