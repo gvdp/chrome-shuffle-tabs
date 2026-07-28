@@ -50,8 +50,8 @@ devDependencies:
     specifier: 3.9.6
     version: 3.9.6
   sinon:
-    specifier: 22.0.0
-    version: 22.0.0
+    specifier: 22.1.0
+    version: 22.1.0
   typescript:
     specifier: 6.0.3
     version: 6.0.3
@@ -1600,8 +1600,8 @@ packages:
     resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}
     dev: true
 
-  /sinon@22.0.0:
-    resolution: {integrity: sha512-sq/6DpdXOrLyfbKlXLg/Usc7xu8YXPeLkOFZRvA3bNUSA2lhbrZ06yuXbH1fkzBPCbz9O10+7hznzUsjaYNm0Q==}
+  /sinon@22.1.0:
+    resolution: {integrity: sha512-n1ajF2rBWMTtEwbKcw4UdFg4nCnDdq/U6RDoxtOd7oapOlRoJ5ynwFx60owROyhDpA9QhMZi0pCO/xtmwFjG7w==}
     dependencies:
       '@sinonjs/commons': 3.0.1
       '@sinonjs/fake-timers': 15.4.0
