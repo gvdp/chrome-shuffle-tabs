@@ -51,7 +51,7 @@
     "pnpm": "8.11.0"
   },
   "dependencies": {
-    "vite": "8.1.5",
+    "vite": "8.2.0",
     "webextension-polyfill": "0.12.0"
   }
 }
