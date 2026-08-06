@@ -30,7 +30,7 @@
     "@vitest/coverage-v8": "4.1.10",
     "concurrently": "10.0.4",
     "eslint": "10.8.0",
-    "globals": "17.7.0",
+    "globals": "17.9.0",
     "happy-dom": "20.11.1",
     "husky": "9.1.7",
     "lint-staged": "17.3.0",
