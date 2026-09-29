@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitest/config'
 import { crx, ManifestV3Export } from '@crxjs/vite-plugin'
 
-import manifest from './manifest.json'
-import pkg from './package.json'
+import manifest from './manifest.json' with { type: 'json' }
+import pkg from './package.json' with { type: 'json' }
 
 console.log('process.env', process.env.DEV === 'true')
 const isDev = process.env.DEV === 'true'
