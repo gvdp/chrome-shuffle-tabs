@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.14.2](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.14.1...v1.14.2) (2026-10-01)
+
+### Bug Fixes
+
+- query inactive tabs directly instead of filtering after ([228ec03](https://github.com/gvdp/chrome-shuffle-tabs/commit/228ec0391361ed2dc91d48ffd478cd8088761aa3)), closes [#21](https://github.com/gvdp/chrome-shuffle-tabs/issues/21)
+
 ### [1.14.1](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.14.0...v1.14.1) (2026-05-30)
 
 ### Bug Fixes
