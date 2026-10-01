@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import sinon from 'sinon'
-import { shuffle, merge } from './actions'
+import { shuffle, merge, snooze } from './actions'
 
 test('shuffle moves every tab to a random index', async () => {
   // @ts-expect-error need to find a way to type this global
@@ -57,4 +57,34 @@ test('merge should move all tabs to the first window', async () => {
   sinon.assert.callCount(chrome.tabs.move, 1)
 
   sinon.assert.calledWith(chrome.tabs.move, [1, 2, 3, 4], { index: -1, windowId: 100 })
+})
+
+test('snooze queries only inactive tabs and stores + removes them', async () => {
+  const inactiveTabs = [
+    { id: 1, url: 'https://example.com/a' },
+    { id: 2, url: 'https://example.com/b' },
+  ]
+
+  // @ts-expect-error need to find a way to type this global
+  global.chrome = {
+    tabs: {
+      query: sinon.fake.returns(Promise.resolve(inactiveTabs)),
+      remove: sinon.fake(),
+    },
+    storage: {
+      local: {
+        get: sinon.fake((_key: string, callback: (result: { tabs: [] }) => void) => callback({ tabs: [] })),
+        set: sinon.fake((_value: unknown, callback?: () => void) => callback?.()),
+      },
+    },
+  }
+
+  await snooze()
+
+  sinon.assert.calledWith(chrome.tabs.query, { pinned: false, active: false, currentWindow: true })
+  sinon.assert.calledWith(chrome.tabs.remove, [1, 2])
+
+  const storedTabs = (chrome.storage.local.set as sinon.SinonStub).firstCall.args[0].tabs
+  expect(storedTabs).toHaveLength(2)
+  expect(storedTabs.map(({ url }: { url: string }) => url)).toEqual(['https://example.com/a', 'https://example.com/b'])
 })
