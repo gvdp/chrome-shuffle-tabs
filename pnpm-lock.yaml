@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   vite:
-    specifier: 8.3.1
-    version: 8.3.1(@types/node@25.9.8)
+    specifier: 8.3.2
+    version: 8.3.2(@types/node@25.9.8)
   webextension-polyfill:
     specifier: 0.12.0
     version: 0.12.0
@@ -15,19 +15,19 @@ dependencies:
 devDependencies:
   '@crxjs/vite-plugin':
     specifier: 3.0.0
-    version: 3.0.0(vite@8.3.1)
+    version: 3.0.0(vite@8.3.2)
   '@eslint/js':
     specifier: 10.0.1
     version: 10.0.1(eslint@10.11.0)
   '@types/chrome':
-    specifier: 0.3.0
-    version: 0.3.0
+    specifier: 0.3.4
+    version: 0.3.4
   '@types/node':
     specifier: 25.9.8
     version: 25.9.8
   '@vitest/coverage-v8':
-    specifier: 5.0.2
-    version: 5.0.2(vitest@5.0.2)
+    specifier: 5.0.3
+    version: 5.0.3(vitest@5.0.3)
   concurrently:
     specifier: 10.0.5
     version: 10.0.5
@@ -59,8 +59,8 @@ devDependencies:
     specifier: 8.70.1
     version: 8.70.1(eslint@10.11.0)(typescript@6.0.3)
   vitest:
-    specifier: 5.0.2
-    version: 5.0.2(@types/node@25.9.8)(@vitest/coverage-v8@5.0.2)(happy-dom@20.14.5)(vite@8.3.1)
+    specifier: 5.0.3
+    version: 5.0.3(@types/node@25.9.8)(@vitest/coverage-v8@5.0.3)(happy-dom@20.14.5)(vite@8.3.2)
 
 packages:
 
@@ -111,7 +111,7 @@ packages:
       keyv: 5.6.0
     dev: true
 
-  /@crxjs/vite-plugin@3.0.0(vite@8.3.1):
+  /@crxjs/vite-plugin@3.0.0(vite@8.3.2):
     resolution: {integrity: sha512-86InOwnuCC6WPAC6/fsZYAzrmxbWn4qLtrchA6iApJ+CoWugHbyWJlsav1ZH2quw+Laq+1T6LBHMjYwxEVtyEQ==}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -130,7 +130,7 @@ packages:
       rollup: 2.80.0
       rxjs: 7.5.7
       tinyglobby: 0.2.17
-      vite: 8.3.1(@types/node@25.9.8)
+      vite: 8.3.2(@types/node@25.9.8)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -406,8 +406,8 @@ packages:
       assertion-error: 2.0.1
     dev: true
 
-  /@types/chrome@0.3.0:
-    resolution: {integrity: sha512-HPAMKyJwUnNJdVsxgypwvIStlwRhhaLnxgEwKIB99oOcffJrC4UMeD5xseVoBwDinSkr690DCBaAtSYdK6M1qw==}
+  /@types/chrome@0.3.4:
+    resolution: {integrity: sha512-dcySM5R3WAUVYFjylu6tvI4D03hPKjgAqk+tKZ/tm/vxL4mLgbnSsOEQ3J7V99qP/U3Oo9IORstJLmX2hPaDlA==}
     dependencies:
       '@types/filesystem': 0.0.36
       '@types/har-format': 1.2.16
@@ -598,11 +598,11 @@ packages:
       eslint-visitor-keys: 5.0.1
     dev: true
 
-  /@vitest/coverage-v8@5.0.2(vitest@5.0.2):
-    resolution: {integrity: sha512-3ffHBEi8DOOBLwIGBhOBZbRfYFYWjMUuxZicONdhuFEFEG5AVsMOSrVeuROskqnqpbOmEJwxM2eTVZ9N3a1t+A==}
+  /@vitest/coverage-v8@5.0.3(vitest@5.0.3):
+    resolution: {integrity: sha512-+klsyz7BvT1vCU28Zkfzms1Ia78XD0V41U3FUtRaa3S+vOr/EXvK1O6BvVD7l1RzEjm6SONR2aybOvDDf9u0mQ==}
     peerDependencies:
-      '@vitest/browser': 5.0.2
-      vitest: 5.0.2
+      '@vitest/browser': 5.0.3
+      vitest: 5.0.3
     peerDependenciesMeta:
       '@vitest/browser':
         optional: true
@@ -615,7 +615,7 @@ packages:
       obug: 2.2.1
       std-env: 4.3.0
       tinyrainbow: 3.1.1
-      vitest: 5.0.2(@types/node@25.9.8)(@vitest/coverage-v8@5.0.2)(happy-dom@20.14.5)(vite@8.3.1)
+      vitest: 5.0.3(@types/node@25.9.8)(@vitest/coverage-v8@5.0.3)(happy-dom@20.14.5)(vite@8.3.2)
     dev: true
 
   /@vitest/istanbul-lib-coverage@1.0.2:
@@ -630,8 +630,8 @@ packages:
       '@vitest/istanbul-lib-coverage': 1.0.2
     dev: true
 
-  /@vitest/mocker@5.0.2(vite@8.3.1):
-    resolution: {integrity: sha512-Z5FS00Q1SJHkB35xATsmWGdQ5WA1/0MV3CDjqyv7GavHv1OfOj145MNfHOlHk7QLes21dKFDHr8EO2zvL+9WGA==}
+  /@vitest/mocker@5.0.3(vite@8.3.2):
+    resolution: {integrity: sha512-T8sWAIbkSyAjkwTcaEc3Iu0o9A27X1/kdXrizhZkGuSKScRQtRzclfAMpOTcGdXCsqxeWlpGy3XjqaW8CpLORg==}
     peerDependencies:
       msw: ^2.4.9
       vite: ^6.0.0 || ^7.0.0 || ^8.0.0
@@ -642,14 +642,14 @@ packages:
         optional: true
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
-      '@vitest/spy': 5.0.2
+      '@vitest/spy': 5.0.3
       estree-walker: 3.0.3
       magic-string: 1.4.2
-      vite: 8.3.1(@types/node@25.9.8)
+      vite: 8.3.2(@types/node@25.9.8)
     dev: true
 
-  /@vitest/spy@5.0.2:
-    resolution: {integrity: sha512-Ijc7T1nT9efNb5LxvjaBrEqw3f/QwUv5EE0nKqZxgqsaV/FxAAZ8baGylA8X/Z2oS4Lp+K74Jr6dTJsDKxJDeg==}
+  /@vitest/spy@5.0.3:
+    resolution: {integrity: sha512-XhFysQTB8AZ+P4gMi+Lpo99vg2AZi0qKpaB9yXQl37+CaMEAPO3iH/wGVnSyL5MPERiLezpqTVtrR6UZH5GCXg==}
     dev: true
 
   /@webcomponents/custom-elements@1.6.0:
@@ -1663,8 +1663,8 @@ packages:
       punycode: 2.3.1
     dev: true
 
-  /vite@8.3.1(@types/node@25.9.8):
-    resolution: {integrity: sha512-/bvH9E9tmCXRGp2uXY3WbOldqpTwFkbha/8ANaEQ6VkxhH60KyqLwgZq6lG2y+4uT55x9+9eUHMpQ7uGnOCKjA==}
+  /vite@8.3.2(@types/node@25.9.8):
+    resolution: {integrity: sha512-SQr1x6W5vVSbROg7vsyXIaxK9b0G7zsT68acdWWRmnBUsgDieLCRG+Rep9WdZgcposvv/GSnr4GUUBqB3vXq6w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -1715,20 +1715,20 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitest@5.0.2(@types/node@25.9.8)(@vitest/coverage-v8@5.0.2)(happy-dom@20.14.5)(vite@8.3.1):
-    resolution: {integrity: sha512-7MQrx9pDv5aHiUcovIb/70Ys3tgtkUVgCtledvKdCmEO+/1Dicq5ZqoSxOW034m03oqC+oHOKui2dM6qtMLoJg==}
+  /vitest@5.0.3(@types/node@25.9.8)(@vitest/coverage-v8@5.0.3)(happy-dom@20.14.5)(vite@8.3.2):
+    resolution: {integrity: sha512-xMw97S3rjdtj5dkVat7jCsqWBpvchs3RlpQctUqwJD0KkERk40vz2fJ77lDwW/Vzh/pk18eItYAzkodhSes3jQ==}
     engines: {node: ^22.12.0 || ^24.0.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@opentelemetry/api': ^1.9.0
       '@types/node': ^22.0.0 || >=24.0.0
-      '@vitest/browser-playwright': 5.0.2
-      '@vitest/browser-preview': 5.0.2
+      '@vitest/browser-playwright': 5.0.3
+      '@vitest/browser-preview': 5.0.3
       '@vitest/browser-webdriverio': ^5.0.0-beta.5 || >=5.0.0
-      '@vitest/coverage-istanbul': 5.0.2
-      '@vitest/coverage-v8': 5.0.2
-      '@vitest/ui': 5.0.2
+      '@vitest/coverage-istanbul': 5.0.3
+      '@vitest/coverage-v8': 5.0.3
+      '@vitest/ui': 5.0.3
       happy-dom: '*'
       jsdom: '*'
       vite: ^6.4.0 || ^7.0.0 || ^8.0.0
@@ -1758,8 +1758,8 @@ packages:
     dependencies:
       '@types/chai': 5.2.3
       '@types/node': 25.9.8
-      '@vitest/coverage-v8': 5.0.2(vitest@5.0.2)
-      '@vitest/mocker': 5.0.2(vite@8.3.1)
+      '@vitest/coverage-v8': 5.0.3(vitest@5.0.3)
+      '@vitest/mocker': 5.0.3(vite@8.3.2)
       chai: 6.2.2
       es-module-lexer: 2.3.2
       expect-type: 1.4.0
@@ -1771,8 +1771,8 @@ packages:
       tinybench: 6.2.0
       tinyexec: 1.3.1
       tinyglobby: 0.2.17
-      vite: 8.3.1(@types/node@25.9.8)
-      why-is-node-running: 3.2.2
+      vite: 8.3.2(@types/node@25.9.8)
+      why-is-node-running: 3.2.1
     transitivePeerDependencies:
       - msw
     dev: true
@@ -1794,8 +1794,8 @@ packages:
       isexe: 2.0.0
     dev: true
 
-  /why-is-node-running@3.2.2:
-    resolution: {integrity: sha512-NKUzAelcoCXhXL4dJzKIwXeR8iEVqsA0Lq6Vnd0UXvgaKbzVo4ZTHROF2Jidrv+SgxOQ03fMinnNhzZATxOD3A==}
+  /why-is-node-running@3.2.1:
+    resolution: {integrity: sha512-Tb2FUhB4vUsGQlfSquQLYkApkuPAFQXGFzxWKHHumVz2dK+X1RUm/HnID4+TfIGYJ1kTcwOaCk/buYCEJr6YjQ==}
     engines: {node: '>=20.11'}
     hasBin: true
     dev: true
