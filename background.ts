@@ -27,6 +27,10 @@ chrome.alarms.onAlarm.addListener(async (alarm) => {
   setBadgeCount()
 })
 
+// Keyboard commands (defined in manifest.json, rebindable at chrome://extensions/shortcuts):
+// - shuffleTabs: shuffle() - Alt+S, mac Cmd+Ctrl+A
+// - snoozeTab:   snoozeATAb() snoozes the active tab - Alt+Z, mac Cmd+Ctrl+Z
+// - altSnooze:   snoozeATAb() as well - mac only, Cmd+Ctrl+S
 chrome.commands.onCommand.addListener(function (command) {
   // Check if the command matches the key combination you want
   console.log('command', command)
@@ -35,7 +39,6 @@ chrome.commands.onCommand.addListener(function (command) {
     shuffle()
   }
 
-  // todo: these actions and/or key combinations should be documented
   if (command === 'snoozeTab' || command === 'altSnooze') {
     console.log('Snooze detected!')
     snoozeATAb()

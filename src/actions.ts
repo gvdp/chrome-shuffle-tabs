@@ -9,6 +9,16 @@ export async function setBadgeCount(): Promise<void> {
   chrome.action.setBadgeText({ text: count.toString() })
 }
 
+// Appends the key combination bound to a command to a button's label, e.g. "Shuffle (⌃⌘A)"
+export async function showShortcutLabel(buttonId: string, commandName: string): Promise<void> {
+  const commands = await chrome.commands.getAll()
+  const shortcut = commands.find(({ name }) => name === commandName)?.shortcut
+  const button = document.getElementById(buttonId)
+  if (button && shortcut) {
+    button.textContent = `${button.textContent} (${shortcut})`
+  }
+}
+
 // Helper function to format time remaining
 function formatTimeRemaining(wakeUpAtMs: number): string {
   const now = new Date().getTime()
