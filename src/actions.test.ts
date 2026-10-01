@@ -1,6 +1,39 @@
 import { expect, test } from 'vitest'
 import sinon from 'sinon'
-import { shuffle, merge, snooze } from './actions'
+import { shuffle, merge, snooze, showShortcutLabel } from './actions'
+
+test('showShortcutLabel appends the bound shortcut to the button label', async () => {
+  document.body.innerHTML = '<button id="shuffle">Shuffle</button>'
+  // @ts-expect-error need to find a way to type this global
+  global.chrome = {
+    commands: {
+      getAll: sinon.fake.returns(
+        Promise.resolve([
+          { name: 'snoozeTab', shortcut: '⌃⌘Z' },
+          { name: 'shuffleTabs', shortcut: '⌃⌘A' },
+        ]),
+      ),
+    },
+  }
+
+  await showShortcutLabel('shuffle', 'shuffleTabs')
+
+  expect(document.getElementById('shuffle')?.textContent).toBe('Shuffle (⌃⌘A)')
+})
+
+test('showShortcutLabel leaves the label alone when no shortcut is bound', async () => {
+  document.body.innerHTML = '<button id="shuffle">Shuffle</button>'
+  // @ts-expect-error need to find a way to type this global
+  global.chrome = {
+    commands: {
+      getAll: sinon.fake.returns(Promise.resolve([{ name: 'shuffleTabs', shortcut: '' }])),
+    },
+  }
+
+  await showShortcutLabel('shuffle', 'shuffleTabs')
+
+  expect(document.getElementById('shuffle')?.textContent).toBe('Shuffle')
+})
 
 test('shuffle moves every tab to a random index', async () => {
   // @ts-expect-error need to find a way to type this global

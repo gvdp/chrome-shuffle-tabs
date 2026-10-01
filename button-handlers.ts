@@ -9,6 +9,7 @@ import {
   wakeForSameUrl,
   sortTabsByUrl,
   setBadgeCount,
+  showShortcutLabel,
 } from './src/actions'
 import { get } from './src/storage'
 
@@ -35,6 +36,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('shuffle')?.addEventListener('click', () => {
     shuffle()
   })
+  // the Snooze button calls snooze() (all inactive tabs), not snoozeATAb() like the shortcut, so it gets no label
+  showShortcutLabel('shuffle', 'shuffleTabs')
 
   document.getElementById('sortTabsByUrl')?.addEventListener('click', () => {
     console.log('sortTabsByUrl clicked')

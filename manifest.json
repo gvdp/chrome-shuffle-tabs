@@ -29,7 +29,7 @@
       "suggested_key": {
         "mac": "Command+MacCtrl+S"
       },
-      "description": "Combination to snooze a single tab"
+      "description": "Alternative combination to snooze a single tab"
     }
   },
   "description": "Extension to shuffle and snooze tabs"
