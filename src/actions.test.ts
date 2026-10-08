@@ -92,10 +92,11 @@ test('merge should move all tabs to the first window', async () => {
   sinon.assert.calledWith(chrome.tabs.move, [1, 2, 3, 4], { index: -1, windowId: 100 })
 })
 
-test('snooze queries only inactive tabs and stores + removes them', async () => {
+test('snooze stores + removes inactive ungrouped tabs and leaves grouped tabs intact', async () => {
   const inactiveTabs = [
-    { id: 1, url: 'https://example.com/a' },
-    { id: 2, url: 'https://example.com/b' },
+    { id: 1, groupId: -1, url: 'https://example.com/a' },
+    { id: 2, groupId: -1, url: 'https://example.com/b' },
+    { id: 3, groupId: 7, url: 'https://example.com/grouped' },
   ]
 
   // @ts-expect-error need to find a way to type this global

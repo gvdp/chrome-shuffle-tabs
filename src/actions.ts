@@ -333,7 +333,7 @@ export async function snoozeATAb() {
 export async function snooze() {
   console.log('snoozing all tabs as action')
   const tabQueryOptions = { pinned: false, active: false, currentWindow: true }
-  const tabs = await chrome.tabs.query(tabQueryOptions)
+  const tabs = (await chrome.tabs.query(tabQueryOptions)).filter((tab) => tab.groupId === -1)
   const FOUR_HOURS = 4 * 60 * 60 * 1000
   const MINUTE = 60 * 1000
   const wakeUpAt = new Date().getTime() + Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS)
