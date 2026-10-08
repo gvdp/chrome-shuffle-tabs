@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.15.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.14.2...v1.15.0) (2026-10-08)
+
+### Features
+
+- document keyboard commands and show shortcut on Shuffle button ([d201ec0](https://github.com/gvdp/chrome-shuffle-tabs/commit/d201ec075dc4fffc43269c4d9ca4a01a13d8b9c9)), closes [#18](https://github.com/gvdp/chrome-shuffle-tabs/issues/18)
+
+### Bug Fixes
+
+- dont snooze tabs in a group ([d94f450](https://github.com/gvdp/chrome-shuffle-tabs/commit/d94f450198be8143e0d93037938786d2a38bc7ea))
+
 ### [1.14.2](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.14.1...v1.14.2) (2026-10-01)
 
 ### Bug Fixes
