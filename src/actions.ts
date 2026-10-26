@@ -330,10 +330,14 @@ export async function snoozeATAb() {
   )
 }
 
-export async function snooze() {
-  console.log('snoozing all tabs as action')
+async function querySnoozableTabs() {
   const tabQueryOptions = { pinned: false, active: false, currentWindow: true }
-  const tabs = (await chrome.tabs.query(tabQueryOptions)).filter((tab) => tab.groupId === -1)
+  return (await chrome.tabs.query(tabQueryOptions)).filter((tab) => tab.groupId === -1)
+}
+
+export async function snooze(tabsToSnooze?: chrome.tabs.Tab[]) {
+  console.log('snoozing all tabs as action')
+  const tabs = tabsToSnooze ?? (await querySnoozableTabs())
   const FOUR_HOURS = 4 * 60 * 60 * 1000
   const MINUTE = 60 * 1000
   const wakeUpAt = new Date().getTime() + Math.min(Math.round(Math.random() * tabs.length * MINUTE), FOUR_HOURS)
@@ -363,6 +367,28 @@ export async function snooze() {
 
     chrome.tabs.remove(tabs.map(({ id }) => id))
   })
+}
+
+export async function snoozeForSameUrl() {
+  const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true })
+  const activeHostname = activeTab?.url && rootHostname(activeTab.url)
+  if (!activeHostname) {
+    console.warn('No active tab with URL found')
+    return
+  }
+
+  const tabs = (await querySnoozableTabs()).filter((tab) => tab.url && rootHostname(tab.url) === activeHostname)
+  console.log('snoozing tabs with same domain', activeHostname)
+  await snooze(tabs)
+}
+
+function rootHostname(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '')
+  } catch (e) {
+    console.error('Invalid URL', url, e)
+    return null
+  }
 }
 
 export async function unsnooze() {

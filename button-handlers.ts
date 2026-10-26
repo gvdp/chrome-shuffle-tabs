@@ -2,6 +2,7 @@ import {
   shuffle,
   merge,
   snooze,
+  snoozeForSameUrl,
   unsnooze,
   unsnoozeSome,
   unsnoozeSomeUnrestricted,
@@ -55,6 +56,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.getElementById('snooze')?.addEventListener('click', () => {
     console.log('snooze clicked')
     snooze()
+  })
+
+  document.getElementById('snoozeForSameUrl')?.addEventListener('click', () => {
+    console.log('snoozeForSameUrl clicked')
+    snoozeForSameUrl()
   })
 
   document.getElementById('unsnooze')?.addEventListener('click', () => {

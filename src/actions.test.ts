@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import sinon from 'sinon'
-import { shuffle, merge, snooze, showShortcutLabel } from './actions'
+import { shuffle, merge, snooze, snoozeForSameUrl, showShortcutLabel } from './actions'
 
 test('showShortcutLabel appends the bound shortcut to the button label', async () => {
   document.body.innerHTML = '<button id="shuffle">Shuffle</button>'
@@ -121,4 +121,38 @@ test('snooze stores + removes inactive ungrouped tabs and leaves grouped tabs in
   const storedTabs = (chrome.storage.local.set as sinon.SinonStub).firstCall.args[0].tabs
   expect(storedTabs).toHaveLength(2)
   expect(storedTabs.map(({ url }: { url: string }) => url)).toEqual(['https://example.com/a', 'https://example.com/b'])
+})
+
+test('snoozeForSameUrl only snoozes inactive ungrouped tabs on the same host as the active tab', async () => {
+  const activeTab = { id: 10, groupId: -1, url: 'https://www.example.com/current' }
+  const inactiveTabs = [
+    { id: 1, groupId: -1, url: 'https://example.com/a' },
+    { id: 2, groupId: -1, url: 'https://other.com/b' },
+    { id: 3, groupId: 7, url: 'https://example.com/grouped' },
+    { id: 4, groupId: -1, url: 'https://www.example.com/c' },
+  ]
+
+  // @ts-expect-error need to find a way to type this global
+  global.chrome = {
+    tabs: {
+      query: sinon.fake((options: { active: boolean }) => Promise.resolve(options.active ? [activeTab] : inactiveTabs)),
+      remove: sinon.fake(),
+    },
+    storage: {
+      local: {
+        get: sinon.fake((_key: string, callback: (result: { tabs: [] }) => void) => callback({ tabs: [] })),
+        set: sinon.fake((_value: unknown, callback?: () => void) => callback?.()),
+      },
+    },
+    action: { setBadgeText: sinon.fake() },
+  }
+
+  await snoozeForSameUrl()
+
+  sinon.assert.calledWith(chrome.tabs.remove, [1, 4])
+  const storedTabs = (chrome.storage.local.set as sinon.SinonStub).firstCall.args[0].tabs
+  expect(storedTabs.map(({ url }: { url: string }) => url)).toEqual([
+    'https://example.com/a',
+    'https://www.example.com/c',
+  ])
 })
