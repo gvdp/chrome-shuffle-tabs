@@ -145,8 +145,25 @@ export async function moveTab() {
   )
 }
 
+// The "main window" is the one holding the pinned tabs; falls back to the first window when nothing is pinned
+async function getMainWindowId(): Promise<number | undefined> {
+  const [pinnedTab] = await chrome.tabs.query({ pinned: true })
+  if (pinnedTab) {
+    return pinnedTab.windowId
+  }
+  const [firstWindow] = await chrome.windows.getAll()
+  return firstWindow?.id
+}
+
 export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolean> {
-  const queryOptions = { pinned: false }
+  const mainWindowId = await getMainWindowId()
+  const lastFocusedWindow = await chrome.windows.getLastFocused()
+  if (mainWindowId === undefined || lastFocusedWindow.id !== mainWindowId) {
+    console.log('main window is not active, not waking up tabs')
+    return false
+  }
+
+  const queryOptions = { pinned: false, windowId: mainWindowId }
 
   console.log('waking up a tab', maxTabs)
   return chrome.tabs.query(queryOptions).then((existingOpenTabs) => {
@@ -166,7 +183,7 @@ export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolea
       return new Promise((resolve) => {
         chrome.storage.local.get('tabs', function (result) {
           console.log('result of chrome.storage.local.get', result)
-          const tabList = Object.values(result.tabs)
+          const tabList = Object.values(result.tabs || {})
           console.log('tablist', tabList)
           const differentHostNamedTabs = [...tabList]
             .filter(({ url }) => {
@@ -212,20 +229,19 @@ export async function wakeUpATab(maxTabs = 15, forceAll = false): Promise<boolea
           if (firstHalfRandomTabList.length) {
             const tabToOpen = firstHalfRandomTabList[0]
             console.log('opening new tab ', tabToOpen.url)
-            chrome.windows.getAll((windows) => {
-              const windowId = windows[0].id
-              chrome.tabs.create({ url: tabToOpen.url, active: false, windowId }).then(() => {
-                chrome.storage.local.get('tabs', function () {
-                  const newTabList = tabList.filter(({ url }) => url !== tabToOpen.url)
-                  chrome.storage.local.set({ tabs: newTabList }, function () {
-                    console.log('tab storage updated to ', newTabList)
+            chrome.tabs.create({ url: tabToOpen.url, active: false, windowId: mainWindowId }).then(() => {
+              chrome.storage.local.get('tabs', function () {
+                const newTabList = tabList.filter(({ url }) => url !== tabToOpen.url)
+                chrome.storage.local.set({ tabs: newTabList }, function () {
+                  console.log('tab storage updated to ', newTabList)
 
-                    setBadgeCount()
-                    resolve(true)
-                  })
+                  setBadgeCount()
+                  resolve(true)
                 })
               })
             })
+          } else {
+            resolve(false)
           }
         })
       })

@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import sinon from 'sinon'
-import { shuffle, merge, snooze, snoozeForSameUrl, showShortcutLabel } from './actions'
+import { shuffle, merge, snooze, snoozeForSameUrl, showShortcutLabel, wakeUpATab } from './actions'
 
 test('showShortcutLabel appends the bound shortcut to the button label', async () => {
   document.body.innerHTML = '<button id="shuffle">Shuffle</button>'
@@ -155,4 +155,91 @@ test('snoozeForSameUrl only snoozes inactive ungrouped tabs on the same host as 
     'https://example.com/a',
     'https://www.example.com/c',
   ])
+})
+
+function stubWakeUpChrome({
+  lastFocusedWindowId,
+  tabs,
+  snoozed = [{ url: 'https://snoozed.com/a', wakeUpAt: 0 }],
+}: {
+  lastFocusedWindowId: number
+  tabs: { id: number; windowId: number; pinned: boolean; groupId: number; active: boolean; url: string }[]
+  snoozed?: SnoozedTab[]
+}) {
+  // @ts-expect-error need to find a way to type this global
+  global.chrome = {
+    tabs: {
+      query: sinon.fake((options: { pinned: boolean; windowId?: number }) =>
+        Promise.resolve(
+          tabs.filter(
+            (tab) =>
+              tab.pinned === options.pinned && (options.windowId === undefined || tab.windowId === options.windowId),
+          ),
+        ),
+      ),
+      create: sinon.fake.returns(Promise.resolve()),
+    },
+    windows: {
+      getAll: sinon.fake.returns(Promise.resolve([{ id: 1 }, { id: 2 }])),
+      getLastFocused: sinon.fake.returns(Promise.resolve({ id: lastFocusedWindowId })),
+    },
+    storage: {
+      local: {
+        get: sinon.fake((_key: string, callback: (result: { tabs: SnoozedTab[] }) => void) =>
+          callback({ tabs: snoozed }),
+        ),
+        set: sinon.fake((_value: unknown, callback?: () => void) => callback?.()),
+      },
+    },
+    action: { setBadgeText: sinon.fake() },
+  }
+}
+
+const tab = (id: number, windowId: number, pinned = false) => ({
+  id,
+  windowId,
+  pinned,
+  groupId: -1,
+  active: false,
+  url: `https://site${id}.com`,
+})
+
+test('wakeUpATab does nothing when the main (pinned) window is not focused', async () => {
+  stubWakeUpChrome({ lastFocusedWindowId: 1, tabs: [tab(1, 1), tab(2, 2, true)] })
+
+  expect(await wakeUpATab(15)).toBe(false)
+  sinon.assert.notCalled(chrome.tabs.create)
+})
+
+test('wakeUpATab only counts tabs in the main window against maxTabs', async () => {
+  // 3 tabs in the other window would exceed maxTabs=1, but only 1 lives in the main window
+  stubWakeUpChrome({ lastFocusedWindowId: 2, tabs: [tab(1, 1), tab(2, 1), tab(3, 1), tab(4, 2, true), tab(5, 2)] })
+
+  expect(await wakeUpATab(1)).toBe(true)
+  sinon.assert.calledWith(chrome.tabs.create, { url: 'https://snoozed.com/a', active: false, windowId: 2 })
+})
+
+test('wakeUpATab stops when the main window has too many tabs', async () => {
+  stubWakeUpChrome({ lastFocusedWindowId: 2, tabs: [tab(1, 2, true), tab(2, 2), tab(3, 2), tab(4, 1)] })
+
+  expect(await wakeUpATab(1)).toBe(false)
+  sinon.assert.notCalled(chrome.tabs.create)
+})
+
+test('wakeUpATab resolves false when no snoozed tab is due', async () => {
+  stubWakeUpChrome({
+    lastFocusedWindowId: 2,
+    tabs: [tab(1, 2, true)],
+    snoozed: [{ url: 'https://snoozed.com/a', wakeUpAt: Date.now() + 60_000 }],
+  })
+
+  expect(await wakeUpATab(15)).toBe(false)
+  sinon.assert.notCalled(chrome.tabs.create)
+})
+
+test('wakeUpATab resolves false when nothing is snoozed', async () => {
+  stubWakeUpChrome({ lastFocusedWindowId: 2, tabs: [tab(1, 2, true)], snoozed: undefined })
+  chrome.storage.local.get = sinon.fake((_key: string, callback: (result: object) => void) => callback({}))
+
+  expect(await wakeUpATab(15)).toBe(false)
 })
