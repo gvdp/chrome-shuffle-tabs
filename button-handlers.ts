@@ -11,6 +11,7 @@ import {
   sortTabsByUrl,
   setBadgeCount,
   showShortcutLabel,
+  countSnoozedTabsByHost,
 } from './src/actions'
 import { get } from './src/storage'
 
@@ -92,6 +93,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const count = tabs.length
   const readyCount = tabs.filter(({ wakeUpAt }) => wakeUpAt <= Date.now()).length
   setText('tabcount', `Snoozed tabs: ${count}\nReady to wake up: ${readyCount}`)
+
+  const hostList = document.getElementById('snoozedHosts')
+  for (const [host, hostCount] of countSnoozedTabsByHost(tabs)) {
+    const item = document.createElement('li')
+    item.textContent = `${host}: ${hostCount}`
+    hostList?.appendChild(item)
+  }
 
   setBadgeCount()
 

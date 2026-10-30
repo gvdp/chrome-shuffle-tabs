@@ -16,12 +16,17 @@
         text-shadow: 0 0 10px rgba(224, 195, 252, 0.5);
         padding: 20px;
         min-width: 400px;
+        /* Chrome caps popups at 600px; cap the body too so the host list scrolls instead of the window */
+        max-height: 600px;
+        display: flex;
+        flex-direction: column;
       }
 
       .container {
         display: flex;
         flex-direction: column;
         gap: 16px;
+        min-height: 0;
       }
 
       .section {
@@ -122,6 +127,7 @@
         border-radius: 8px;
         background: rgba(0, 217, 255, 0.05);
         box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+        min-height: 0;
       }
 
       label {
@@ -159,6 +165,15 @@
         letter-spacing: 1px;
         color: #ff5ec7;
         text-shadow: 0 0 10px rgba(255, 94, 199, 0.5);
+        white-space: pre-line;
+      }
+
+      #snoozedHosts {
+        list-style: none;
+        font-size: 11px;
+        color: #e0c3fc;
+        min-height: 0;
+        overflow-y: auto;
       }
     </style>
   </head>
@@ -200,6 +215,7 @@
           <input id="maxTabs" type="number" />
         </label>
         <span id="tabcount">Snoozed tabs: </span>
+        <ul id="snoozedHosts"></ul>
       </div>
     </div>
   </body>

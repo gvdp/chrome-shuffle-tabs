@@ -9,6 +9,21 @@ export async function setBadgeCount(): Promise<void> {
   chrome.action.setBadgeText({ text: count.toString() })
 }
 
+// Counts snoozed tabs per host (without "www."), sorted by count descending
+export function countSnoozedTabsByHost(tabs: SnoozedTab[]): [string, number][] {
+  const counts = new Map<string, number>()
+  for (const { url } of tabs) {
+    let host: string
+    try {
+      host = new URL(url).hostname.replace(/^www\./, '') || url
+    } catch {
+      host = url
+    }
+    counts.set(host, (counts.get(host) || 0) + 1)
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+}
+
 // Appends the key combination bound to a command to a button's label, e.g. "Shuffle (⌃⌘A)"
 export async function showShortcutLabel(buttonId: string, commandName: string): Promise<void> {
   const commands = await chrome.commands.getAll()

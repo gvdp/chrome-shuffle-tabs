@@ -1,6 +1,14 @@
 import { expect, test } from 'vitest'
 import sinon from 'sinon'
-import { shuffle, merge, snooze, snoozeForSameUrl, showShortcutLabel, wakeUpATab } from './actions'
+import {
+  shuffle,
+  merge,
+  snooze,
+  snoozeForSameUrl,
+  showShortcutLabel,
+  wakeUpATab,
+  countSnoozedTabsByHost,
+} from './actions'
 
 test('showShortcutLabel appends the bound shortcut to the button label', async () => {
   document.body.innerHTML = '<button id="shuffle">Shuffle</button>'
@@ -242,4 +250,19 @@ test('wakeUpATab resolves false when nothing is snoozed', async () => {
   chrome.storage.local.get = sinon.fake((_key: string, callback: (result: object) => void) => callback({}))
 
   expect(await wakeUpATab(15)).toBe(false)
+})
+
+test('countSnoozedTabsByHost groups tabs by host, strips www and sorts by count', () => {
+  const tabs = [
+    { url: 'https://www.github.com/a', wakeUpAt: 0 },
+    { url: 'https://example.com/x', wakeUpAt: 0 },
+    { url: 'https://github.com/b', wakeUpAt: 0 },
+    { url: 'not a url', wakeUpAt: 0 },
+  ]
+
+  expect(countSnoozedTabsByHost(tabs)).toEqual([
+    ['github.com', 2],
+    ['example.com', 1],
+    ['not a url', 1],
+  ])
 })
