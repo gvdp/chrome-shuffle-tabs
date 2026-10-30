@@ -294,8 +294,8 @@ export async function snoozeATAb() {
       )
 
       const snoozingUrls = currentlyActiveTabs.map(({ url }) => {
-        // Get the number of times this tab has been snoozed before
-        const snoozeCount = snoozedTabHistory[url]?.count || 0
+        // Get the number of times this tab has been snoozed before; site roots never back off
+        const snoozeCount = isSiteRoot(url) ? 0 : snoozedTabHistory[url]?.count || 0
 
         let wakeUpAt
         if (snoozeCount === 0) {
@@ -320,6 +320,7 @@ export async function snoozeATAb() {
       // Update the snooze history for each tab
       const updatedHistory = { ...snoozedTabHistory }
       currentlyActiveTabs.forEach(({ url }) => {
+        if (isSiteRoot(url)) return
         const existing = updatedHistory[url]
         updatedHistory[url] = {
           count: (existing?.count || 0) + 1,
@@ -411,6 +412,16 @@ export async function snoozeForSameUrl() {
   const tabs = (await querySnoozableTabs()).filter((tab) => tab.url && rootHostname(tab.url) === activeHostname)
   console.log('snoozing tabs with same domain', activeHostname)
   await snooze(tabs)
+}
+
+// True for a bare site URL like https://example.com/ (no path, query or hash)
+export function isSiteRoot(url: string) {
+  try {
+    const { pathname, search, hash } = new URL(url)
+    return pathname === '/' && !search && !hash
+  } catch {
+    return false
+  }
 }
 
 function rootHostname(url: string) {

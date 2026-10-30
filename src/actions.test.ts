@@ -8,6 +8,8 @@ import {
   showShortcutLabel,
   wakeUpATab,
   countSnoozedTabsByHost,
+  isSiteRoot,
+  snoozeATAb,
 } from './actions'
 
 test('showShortcutLabel appends the bound shortcut to the button label', async () => {
@@ -265,4 +267,52 @@ test('countSnoozedTabsByHost groups tabs by host, strips www and sorts by count'
     ['example.com', 1],
     ['not a url', 1],
   ])
+})
+
+test('isSiteRoot is only true for a bare site URL', () => {
+  expect(isSiteRoot('https://example.com')).toBe(true)
+  expect(isSiteRoot('https://www.example.com/')).toBe(true)
+  expect(isSiteRoot('https://example.com/a')).toBe(false)
+  expect(isSiteRoot('https://example.com/?q=1')).toBe(false)
+  expect(isSiteRoot('https://example.com/#/inbox')).toBe(false)
+  expect(isSiteRoot('not a url')).toBe(false)
+})
+
+const snoozeATAbWithHistory = async (url: string, count: number) => {
+  // @ts-expect-error need to find a way to type this global
+  global.chrome = {
+    tabs: {
+      query: sinon.fake.returns(Promise.resolve([{ id: 1, url, title: 'Tab' }])),
+      remove: sinon.fake(),
+    },
+    storage: {
+      local: {
+        get: sinon.fake((_keys: string[], callback: (result: unknown) => void) =>
+          callback({ tabs: [], snoozedTabHistory: { [url]: { count, lastSnoozeDate: Date.now() } } }),
+        ),
+        set: sinon.fake.returns(Promise.resolve()),
+      },
+    },
+    notifications: { create: sinon.fake.returns(Promise.resolve('id')) },
+  }
+
+  const before = Date.now()
+  await snoozeATAb()
+  const { tabs, snoozedTabHistory } = (chrome.storage.local.set as sinon.SinonStub).firstCall.args[0]
+  return { delay: tabs[0].wakeUpAt - before, snoozedTabHistory }
+}
+
+test('snoozeATAb backs off exponentially for URLs with a path', async () => {
+  const { delay, snoozedTabHistory } = await snoozeATAbWithHistory('https://example.com/a', 2)
+
+  expect(delay).toBeGreaterThanOrEqual(60 * 60 * 1000)
+  expect(snoozedTabHistory['https://example.com/a'].count).toBe(3)
+})
+
+test('snoozeATAb snoozes site roots as if it is the first time', async () => {
+  const { delay, snoozedTabHistory } = await snoozeATAbWithHistory('https://example.com/', 2)
+
+  expect(delay).toBeGreaterThanOrEqual(15 * 60 * 1000)
+  expect(delay).toBeLessThan(16 * 60 * 1000)
+  expect(snoozedTabHistory['https://example.com/'].count).toBe(2)
 })
