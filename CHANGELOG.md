@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.17.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.16.0...v1.17.0) (2026-10-30)
+
+### Features
+
+- add count of snoozed tabs per site ([5043358](https://github.com/gvdp/chrome-shuffle-tabs/commit/50433581f1a12f4558f6cf31c4a7010908cc90bf))
+- count only tabs in main window for unsnoozing ([91d75c7](https://github.com/gvdp/chrome-shuffle-tabs/commit/91d75c7f0ee0b5a73a5b233a4bf28f7b2a00854e))
+- dont extend snoozing time for root urls ([f4b46dc](https://github.com/gvdp/chrome-shuffle-tabs/commit/f4b46dc037749c2a2fd139713d7ae92a6fdc5f7b))
+
 ## [1.16.0](https://github.com/gvdp/chrome-shuffle-tabs/compare/v1.15.0...v1.16.0) (2026-10-26)
 
 ### Features
