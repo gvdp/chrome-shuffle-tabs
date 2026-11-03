@@ -25,7 +25,7 @@
   "devDependencies": {
     "@crxjs/vite-plugin": "3.0.0",
     "@eslint/js": "10.0.1",
-    "@types/chrome": "0.3.6",
+    "@types/chrome": "0.3.7",
     "@types/node": "25.9.9",
     "@vitest/coverage-v8": "5.0.5",
     "concurrently": "10.0.6",
@@ -47,7 +47,7 @@
     "*.js,*.ts": "eslint --cache --fix"
   },
   "volta": {
-    "node": "24.22.1",
+    "node": "24.22.2",
     "pnpm": "8.11.0"
   },
   "dependencies": {
